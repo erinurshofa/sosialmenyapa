@@ -64,23 +64,27 @@ $config = [
         //         ],
         //     ],
         // ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // Rules specifically for SiteController
+                'site/index' => 'site/index',
+                'site/about' => 'site/about',
+                'site/contact' => 'site/contact',
+                'site/login' => 'site/login',
+                'site/logout' => 'site/logout',
+                'site/kegiatan' => 'site/kegiatan',
+                'site/registrasi-psm' => 'site/registrasi-psm',
+                'site/home' => 'site/home',
+                'site/statistik' => 'site/statistik',
+                // Default rule to catch other site actions if needed
+                'site/<action:\w+>' => 'site/<action>',
+                
+                // Allow other controllers to work with standard query params (fallback)
+                // '<controller:\w+>/<action:\w+>' => '<controller>/<action>', 
             ],
         ],
-        */
-        // 'urlManager' => [
-        //     'enablePrettyUrl' => true,
-        //     'showScriptName' => false,
-        //     'rules' => [
-        //         'ppks/get-kota/<id:\d+>' => 'ppks/get-kota',
-        //         'ppks/get-kecamatan/<id:\d+>' => 'ppks/get-kecamatan',
-        //         'ppks/get-kelurahan/<id:\d+>' => 'ppks/get-kelurahan',
-        //     ],
-        // ],
     //     'mailer' => [
     //     'class' => 'yii\swiftmailer\Mailer',
     //     'useFileTransport' => false,
