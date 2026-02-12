@@ -17,6 +17,7 @@ $this->title = 'Dinas Sosial Kota Semarang';
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <link rel="manifest" href="<?= Url::to('@web/manifest.json') ?>">
+    <link rel="icon" type="image/png" href="<?= Url::to('@web/logo-icon.png') ?>">
     <meta name="theme-color" content="#01579B">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

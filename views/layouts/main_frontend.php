@@ -172,7 +172,7 @@ $this->title = 'Dinas Sosial Kota Semarang';
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown">Informasi</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Kegiatan</a></li>
+                            <li><a class="dropdown-item" href="<?= Url::to(['/site/kegiatan']) ?>">Kegiatan</a></li>
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>

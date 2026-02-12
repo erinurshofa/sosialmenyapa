@@ -251,10 +251,13 @@ i {
 }
     </style>
 <div class="d-flex flex-column" id="activity-container">
-        <div class="header">
+        <div class="header" style="position: relative;">
+            <a href="<?= Url::to(['/site/index']) ?>" class="btn btn-link text-white" style="position: absolute; top: 10px; right: 10px; z-index: 100; text-decoration: none;">
+                <i class="fas fa-arrow-left fa-2x"></i>
+            </a>
             <div class="row">
                 <div class="col-7 my-auto text-white">
-                    <img src="https://sosialmenyapa.semarangkota.go.id/img/header-kegiatan.png" alt="DP3A Kota Semarang" class="img-fluid p-2">
+                    <img src="https://sosialmenyapa.semarangkota.go.id/images/dinsos2.png" alt="DINSOS Kota Semarang" class="img-fluid p-2" style="margin-top:-20px;width: 250px;height: 100px;">
                 </div>
                 <div class="col my-auto cuaca">
                     <div id="cuaca" class="text-center"></div>
