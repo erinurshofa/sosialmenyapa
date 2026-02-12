@@ -549,6 +549,11 @@ public function actionKegiatan()
                 // SANITIZATION (XSS Prevention) - Loop through all attributes
                 foreach ($model->attributes as $attribute => $value) {
                     if (is_string($value)) {
+                        // Check for malicious patterns using ActSecure
+                        if(!ActSecure::validateInput($value)) {
+                             Yii::$app->session->setFlash('error', "Input mengandung karakter yang tidak diperbolehkan pada isian $attribute.");
+                             return $this->refresh();
+                        }
                         $model->$attribute = strip_tags($value);
                     }
                 }
@@ -572,7 +577,22 @@ public function actionKegiatan()
                 
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                    if(!$user->save(false)){
+                    // Cek apakah email sudah terdaftar
+                    $existingUser = Users::findOne(['username' => $user->username]);
+                    if ($existingUser) {
+                        throw new \Exception("Email tersebut sudah terdaftar. Silakan login atau gunakan email lain.");
+                    }
+
+                    if(!$user->validate()) {
+                         $errors = $user->getErrors();
+                         $errorMsg = '';
+                         foreach($errors as $field => $messages) {
+                             $errorMsg .= implode(', ', $messages) . '<br>';
+                         }
+                         throw new \Exception("Gagal Validasi User: " . $errorMsg);
+                    }
+
+                    if(!$user->save(false)){ // save(false) aman karena sudah divalidasi manual di atas untuk error message yang lebih baik, atau bisa pakai save() langsung
                          throw new \Exception("Gagal menyimpan User.");
                     }
                     
@@ -580,8 +600,15 @@ public function actionKegiatan()
                     $model->user_id=$user->id;
                     $model->provinsi_id='33';
                     $model->kota_id='3374';
+                    
+                    // Pastikan Data Kecamatan dan Kelurahan Valid
                     $kecamatan=Kecamatan::find()->where(['id_lama'=>$model->kecamatan_id])->one();
                     $kelurahan=Kelurahan::find()->where(['kelurahan_id'=>$model->kelurahan_id])->one();
+
+                    if(!$kecamatan || !$kelurahan){
+                         throw new \Exception("Data wilayah tidak valid.");
+                    }
+
                     $model->kecamatan=strtoupper($kecamatan->nama);
                     $model->kelurahan=strtoupper($kelurahan->nama);
                     $model->keterangan="PSM ".$model->kelurahan;
@@ -596,7 +623,7 @@ public function actionKegiatan()
                         $user2->psm_id=$model->id;
                         $user2->save(false);
                         
-                        $transaction->commit();
+                        $transaction->commit(); // KOMIT TRANSAKSI
 
                         // Kirim email ke pendaftar
                         try {
@@ -611,7 +638,7 @@ public function actionKegiatan()
                             // Ignore email error, registration is successful
                         }
 
-                        Yii::$app->session->setFlash('success', 'Registrasi berhasil.');
+                        Yii::$app->session->setFlash('success', 'Registrasi berhasil. Silakan tunggu konfirmasi selanjutnya.');
                         // Tampilkan halaman ucapan terima kasih
                         return $this->render('terima-kasih', ['model' => $model]);
                     } else {

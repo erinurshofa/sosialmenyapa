@@ -1,233 +1,144 @@
 <p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Basic Project Template</h1>
+    <h1 align="center">Sosial Menyapa</h1>
+    <p align="center">Sistem Pelayanan Kesejahteraan Sosial Terpadu</p>
     <br>
 </p>
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
+## 📖 Tentang Aplikasi
 
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+**Sosial Menyapa** adalah aplikasi pelayanan kesejahteraan sosial yang dirancang untuk mempermudah proses pengajuan, verifikasi, dan validasi bantuan sosial. Sistem ini menggunakan **Role-Based Access Control (RBAC)** untuk memastikan setiap pengguna hanya mengakses fitur dan data sesuai dengan kewenangannya, mulai dari tingkat masyarakat hingga dinas terkait.
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![build](https://github.com/yiisoft/yii2-app-basic/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-basic/actions?query=workflow%3Abuild)
+---
 
-DIRECTORY STRUCTURE
--------------------
+## 👥 Pengguna & Hak Akses (Roles)
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+Aplikasi ini membagi pengguna ke dalam 5 peran utama dengan hak akses spesifik:
 
+### 1. 🛠️ Admin Aplikasi
+**Keterangan:** Dikelola oleh tim pengembang atau unit teknis internal Dinas Sosial.
+*   **Hak Akses:**
+    *   Mengelola pengguna (buat/edit/hapus).
+    *   Mengelola wilayah administrasi (kecamatan & kelurahan).
+    *   Melihat seluruh data pengajuan.
+    *   Memonitor aktivitas pengguna.
+    *   Akses penuh terhadap semua fitur aplikasi.
 
+### 2. 🏛️ Kelurahan
+**Keterangan:** Dapat membuat pengajuan langsung maupun melakukan verifikasi atas pengajuan dari PSM.
+*   **Hak Akses:**
+    *   Melakukan pengajuan data PPKS, Santunan Kematian, dan Santunan Disabilitas.
+    *   Melihat, mengedit, dan menghapus data pengajuan yang diajukan oleh kelurahannya.
+    *   Memverifikasi pengajuan dari PSM di bawah wilayah kerjanya.
+    *   Melihat status validasi dan approval oleh kecamatan dan Dinas Sosial.
 
-REQUIREMENTS
-------------
+### 3. 🏢 Kecamatan
+**Keterangan:** Berfungsi sebagai lapisan kontrol administratif tingkat menengah sebelum pengajuan dilanjutkan ke Dinas Sosial.
+*   **Hak Akses:**
+    *   Melihat semua pengajuan dari seluruh kelurahan dalam wilayahnya.
+    *   Melakukan validasi administratif terhadap pengajuan yang telah diverifikasi kelurahan.
+    *   Memberi catatan atau mengembalikan pengajuan yang tidak sesuai.
 
-The minimum requirement by this project template that your Web server supports PHP 7.4.
+### 4. 🏛️ Dinas Sosial (Dinsos)
+**Keterangan:** Pemegang wewenang tertinggi dalam menyetujui bantuan sosial.
+*   **Hak Akses:**
+    *   Melihat seluruh data pengajuan dari semua wilayah.
+    *   Memberikan keputusan akhir (approve/reject) pada setiap pengajuan.
+    *   Menyimpan dokumentasi persetujuan.
+    *   Menyetujui atau menolak akun PSM baru.
 
+### 5. 🤝 PSM (Pekerja Sosial Masyarakat)
+**Keterangan:** Bekerja langsung di lapangan untuk mendata dan mendampingi warga. Wajib registrasi dan verifikasi Dinsos.
+*   **Hak Akses:**
+    *   Mengajukan data PPKS, Santunan Kematian, dan Santunan Disabilitas.
+    *   Melihat status pengajuan yang diajukan.
+    *   Melengkapi dokumen pendukung dan informasi tambahan.
 
-INSTALLATION
-------------
+---
 
-### Install via Composer
+## 🔄 Alur Pengajuan Layanan
 
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
+Sistem verifikasi dan validasi bertingkat untuk memastikan keakuratan data dan kelayakan penerima bantuan.
 
-You can then install this project template using the following command:
+### 🧾 Jenis Layanan
+1.  **PPKS** (Pemerlu Pelayanan Kesejahteraan Sosial)
+2.  **Santunan Kematian**
+3.  **Santunan Disabilitas**
 
-~~~
-composer create-project --prefer-dist yiisoft/yii2-app-basic basic
-~~~
+### 📋 Tahapan Proses
+1.  **Pengajuan Awal (PSM/Kelurahan)**
+    *   PSM log in (setelah akun disetujui Dinsos) atau Kelurahan mengakses sistem.
+    *   Mengisi formulir sesuai jenis bantuan & melampirkan dokumen wajib.
+    *   Pengajuan otomatis masuk ke daftar verifikasi Kelurahan.
+2.  **Verifikasi Kelurahan**
+    *   Petugas Kelurahan memeriksa validitas data.
+    *   **Sesuai:** Status menjadi *Terverifikasi* -> Lanjut ke Kecamatan.
+    *   **Tidak Sesuai:** Dikembalikan dengan catatan perbaikan.
+3.  **Validasi Kecamatan**
+    *   Kecamatan mengevaluasi kelayakan administratif & teknis.
+    *   **Valid:** Status menjadi *Tervalidasi* -> Lanjut ke Dinas Sosial.
+    *   **Tidak Valid:** Dikembalikan ke Kelurahan untuk revisi.
+4.  **Persetujuan Dinas Sosial**
+    *   Dinsos melakukan pemeriksaan akhir dan approval.
+    *   **Disetujui:** Bantuan diproses, pemohon menerima notifikasi.
+    *   **Ditolak:** Sistem mencatat alasan penolakan.
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
+---
 
-~~~
-http://localhost/basic/web/
-~~~
+## 💻 Panduan Teknis (Untuk Developer)
 
-### Install from an Archive File
+Aplikasi ini dibangun menggunakan framework [Yii 2](http://www.yiiframework.com/).
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
+### Persyaratan Sistem (Requirements)
+*   PHP 7.4 atau lebih baru.
+*   Composer.
+*   Web Server (Apache/Nginx).
+*   Database (MySQL/MariaDB).
 
-Set cookie validation key in `config/web.php` file to some random secret string:
+### Instalasi
 
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-### Install with Docker
-
-Update your vendor packages
-
-    docker-compose run --rm php composer update --prefer-dist
-    
-Run the installation triggers (creating cookie validation code)
-
-    docker-compose run --rm php composer install    
-    
-Start the container
-
-    docker-compose up -d
-    
-You can then access the application through the following URL:
-
-    http://127.0.0.1:8000
-
-**NOTES:** 
-- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
-- The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
-
-
-CONFIGURATION
--------------
-
-### Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTES:**
-- Yii won't create the database for you, this has to be done manually before you can access it.
-- Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
-
-
-TESTING
--------
-
-Tests are located in `tests` directory. They are developed with [Codeception PHP Testing Framework](http://codeception.com/).
-By default, there are 3 test suites:
-
-- `unit`
-- `functional`
-- `acceptance`
-
-Tests can be executed by running
-
-```
-vendor/bin/codecept run
-```
-
-The command above will execute unit and functional tests. Unit tests are testing the system components, while functional
-tests are for testing user interaction. Acceptance tests are disabled by default as they require additional setup since
-they perform testing in real browser. 
-
-
-### Running  acceptance tests
-
-To execute acceptance tests do the following:  
-
-1. Rename `tests/acceptance.suite.yml.example` to `tests/acceptance.suite.yml` to enable suite configuration
-
-2. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full-featured
-   version of Codeception
-
-3. Update dependencies with Composer 
-
-    ```
-    composer update  
+1.  **Install via Composer**
+    Jika Anda belum memiliki Composer, install dari [getcomposer.org](http://getcomposer.org/).
+    ```bash
+    composer create-project --prefer-dist yiisoft/yii2-app-basic sosialmenyapa
     ```
 
-4. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
-
-    ```
-    java -jar ~/selenium-server-standalone-x.xx.x.jar
-    ```
-
-    In case of using Selenium Server 3.0 with Firefox browser since v48 or Google Chrome since v53 you must download [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and launch Selenium with it:
-
-    ```
-    # for Firefox
-    java -jar -Dwebdriver.gecko.driver=~/geckodriver ~/selenium-server-standalone-3.xx.x.jar
-    
-    # for Google Chrome
-    java -jar -Dwebdriver.chrome.driver=~/chromedriver ~/selenium-server-standalone-3.xx.x.jar
-    ``` 
-    
-    As an alternative way you can use already configured Docker container with older versions of Selenium and Firefox:
-    
-    ```
-    docker run --net=host selenium/standalone-firefox:2.53.0
+2.  **Konfigurasi Database**
+    Edit file `config/db.php` dengan kredensial database Anda:
+    ```php
+    return [
+        'class' => 'yii\db\Connection',
+        'dsn' => 'mysql:host=localhost;dbname=sosialmenyapa',
+        'username' => 'root',
+        'password' => '',
+        'charset' => 'utf8',
+    ];
     ```
 
-5. (Optional) Create `yii2basic_test` database and update it by applying migrations if you have them.
-
-   ```
-   tests/bin/yii migrate
-   ```
-
-   The database configuration can be found at `config/test_db.php`.
-
-
-6. Start web server:
-
-    ```
-    tests/bin/yii serve
+3.  **Migrasi Database**
+    Jalankan perintah migrasi untuk membuat tabel yang diperlukan (jika ada):
+    ```bash
+    php yii migrate
     ```
 
-7. Now you can run all available tests
+4.  **Menjalankan Aplikasi**
+    Anda dapat menggunakan built-in web server PHP untuk pengembangan:
+    ```bash
+    php yii serve
+    ```
+    Akses aplikasi di: `http://localhost:8080/`
 
-   ```
-   # run all available tests
-   vendor/bin/codecept run
+### Struktur Direktori
 
-   # run acceptance tests
-   vendor/bin/codecept run acceptance
+      assets/             definisi aset (css/js)
+      commands/           console commands
+      config/             konfigurasi aplikasi
+      controllers/        web controllers (logika aplikasi)
+      models/             model classes (database & form)
+      views/              view files (tampilan antarmuka)
+      web/                entry script dan resource publik
+      tests/              unit & functional tests
 
-   # run only unit and functional tests
-   vendor/bin/codecept run unit,functional
-   ```
-
-### Code coverage support
-
-By default, code coverage is disabled in `codeception.yml` configuration file, you should uncomment needed rows to be able
-to collect code coverage. You can run your tests and collect coverage with the following command:
-
-```
-#collect coverage for all tests
-vendor/bin/codecept run --coverage --coverage-html --coverage-xml
-
-#collect coverage only for unit tests
-vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml
-
-#collect coverage for unit and functional tests
-vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xml
-```
-
-You can see code coverage output under the `tests/_output` directory.
+---
+<p align="center">
+    Dibuat dengan ❤️ untuk pelayanan sosial yang lebih baik.
+</p>

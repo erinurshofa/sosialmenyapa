@@ -21,7 +21,6 @@ use app\models\ActionsBelajar;
 use app\models\ActSecure;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
-
 use kartik\mpdf\Pdf;
 
 class AuthController extends Controller
@@ -62,7 +61,7 @@ class AuthController extends Controller
     public function actionLogin()
     {
         set_time_limit(300);
-        $this->layout="main-login";
+        $this->layout="modern-login";
         // Actions::setglobal();
         if (!Yii::$app->user->isGuest) {
             // Actions::updatedashboard();
@@ -87,7 +86,7 @@ class AuthController extends Controller
         }
 
         $model->password = '';
-        return $this->render('login4', [
+        return $this->render('login', [
             'model' => $model,
         ]);
     }

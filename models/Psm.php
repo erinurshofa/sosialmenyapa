@@ -122,4 +122,8 @@ class Psm extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
 }

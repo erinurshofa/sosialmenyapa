@@ -1,0 +1,23 @@
+{
+  "name": "Sosial Menyapa",
+  "short_name": "SosialMenyapa",
+  "start_url": "./index.php?r=site/registrasi-psm",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#01579B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./logo-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./logo-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

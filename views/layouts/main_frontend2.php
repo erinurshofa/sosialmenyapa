@@ -16,6 +16,8 @@ $this->title = 'Dinas Sosial Kota Semarang';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="manifest" href="<?= Url::to('@web/manifest.json') ?>">
+    <meta name="theme-color" content="#01579B">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -46,10 +48,17 @@ $this->title = 'Dinas Sosial Kota Semarang';
         @media (max-width: 991px) { /* Ukuran navbar mobile */
             .navbar-nav {
                 background: linear-gradient(to right, #01579B, rgba(0, 0, 0, 0.3));
-                color: white !important; /* Pastikan teks tetap terlihat */
-                /*padding: 10px 15px;
+                color: white !important; 
+                padding: 10px 20px; 
                 border-radius: 5px;
-                margin: 5px 0;*/
+                margin: 5px 0;
+                text-align: center; /* Center text for better mobile alignment */
+            }
+            .navbar-nav .nav-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
             }
         }
         .title {
@@ -120,6 +129,11 @@ $this->title = 'Dinas Sosial Kota Semarang';
                     </li>
                     <li class="nav-item"><a class="nav-link" href="<?= Url::to(['/site/home', '#' => 'kontak']) ?>">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= Url::to(['/auth/login']) ?>">Login</a></li>
+                    <li class="nav-item" id="installContainer" style="display: none;">
+                        <button class="nav-link btn btn-outline-light text-white ms-2" id="installBtn" style="border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 5px 15px;">
+                            <i class="fas fa-download"></i> Install App
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -183,6 +197,50 @@ $this->title = 'Dinas Sosial Kota Semarang';
             "retina_detect": true
         });
         
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('<?= Url::to('@web/sw.js') ?>').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+
+        let deferredPrompt;
+        const installContainer = document.getElementById('installContainer');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            installContainer.style.display = 'block';
+            console.log('beforeinstallprompt fired');
+        });
+
+        installBtn.addEventListener('click', (e) => {
+            // Hide the app provided install promotion
+            installContainer.style.display = 'none';
+            // Show the install prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                } else {
+                    console.log('User dismissed the A2HS prompt');
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        window.addEventListener('appinstalled', (evt) => {
+            // Log install to analytics
+            console.log('INSTALL: Success');
+        });
     </script>
 <?php $this->endBody() ?>
 </body>

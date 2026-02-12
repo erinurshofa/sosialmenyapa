@@ -17,6 +17,9 @@ $this->title = 'Dinas Sosial Kota Semarang';
 
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="manifest" href="<?= Url::to('@web/manifest.json') ?>">
+    <link rel="icon" type="image/png" href="<?= Url::to('@web/logo-icon.png') ?>">
+    <meta name="theme-color" content="#01579B">
     <?php
 // $this->registerCssFile('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
 // $this->registerJsFile('https://code.jquery.com/jquery-3.6.0.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
@@ -174,6 +177,11 @@ $this->title = 'Dinas Sosial Kota Semarang';
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= Url::to(['/auth/login']) ?>">Login</a></li>
+                    <li class="nav-item" id="installContainer" style="display: none;">
+                        <button class="nav-link btn btn-outline-light text-white ms-2" id="installBtn" style="border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 5px 15px;">
+                            <i class="fas fa-download"></i> Install App
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -193,6 +201,24 @@ $this->title = 'Dinas Sosial Kota Semarang';
     <div id="all" style="background-image: url(<?= Url::to('@web/images/ball-wed.svg') ?>);">
 
     
+    
+        <div class="container" style="margin-top: -50px; position: relative; z-index: 10;">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="alert alert-light text-center shadow-lg" style="border-radius: 15px; border: 1px solid #01579B;">
+                        <h4 class="text-primary"><i class="fab fa-android"></i> <strong>Pasang Aplikasi di Android</strong></h4>
+                        <p class="mb-3">Untuk kemudahan akses dan pendaftaran PSM, silakan instal aplikasi ini di perangkat Android Anda.</p>
+                        <button class="btn btn-success btn-lg rounded-pill px-5" onclick="window.installPWA();">
+                            <i class="fas fa-download me-2"></i> Download / Install Aplikasi
+                        </button>
+                        <div class="mt-2">
+                            <small class="text-muted"><i>*Jika tombol tidak berfungsi, gunakan menu browser "Install App" atau "Add to Home Screen".</i></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <section id="permohonan" style="padding: 50px 0;" class="d-flex align-items-center justify-content-center">
             <div class="container">
                 <div class="heading text-center cnavy">
@@ -342,6 +368,74 @@ $this->title = 'Dinas Sosial Kota Semarang';
             "retina_detect": true
         });
         
+        
+        // Global Install Function
+        window.installPWA = function() {
+            if (deferredPrompt) {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    } else {
+                        console.log('User dismissed the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                // Check if already installed
+                if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                    alert('Aplikasi ini sudah terinstall dan sedang berjalan dalam mode aplikasi.');
+                    return;
+                }
+
+                // Check protocol
+                if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+                    alert('Peringatan: Instalasi otomatis mungkin tidak berjalan karena website tidak diakses melalui HTTPS.\n\nSilakan coba akses melalui HTTPS atau localhost.');
+                    return;
+                }
+
+                // Fallback instructions
+                alert("Browser belum menampilkan prompt instalasi otomatis.\n\nKemungkinan penyebab:\n1. Aplikasi sudah terinstall.\n2. Service Worker baru saja diperbarui (coba refresh halaman).\n3. Browser tidak mendukung PWA (Gunakan Chrome/Edge).\n\nCara Manual: Cari menu 'Install App' atau 'Tambahkan ke Layar Utama' di pengaturan browser Anda.");
+            }
+        };
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('<?= Url::to('@web/sw.js') ?>')
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+
+        let deferredPrompt;
+        const installContainer = document.getElementById('installContainer');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            if (installContainer) installContainer.style.display = 'block';
+            console.log('beforeinstallprompt fired');
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', (e) => {
+                window.installPWA();
+            });
+        }
+
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('INSTALL: Success');
+            alert('Aplikasi berhasil diinstall!');
+        });
     </script>
 <?php $this->endBody() ?>
 </body>

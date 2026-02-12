@@ -44,4 +44,18 @@ $this->title = 'SIDAKSOS VERSI 3';
         <marquee><strong style="text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"><font size='5' color="red" style='opacity:1;'> DATA VALID MISKIN SEDIKIT MENUJU MASYARAKAT KOTA SEMARANG SEJAHTERA</font></strong></marquee>
 	</font>
     </div>
-</center>                
+</center>
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-md-12 text-center">
+        <div class="alert alert-info" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius: 15px;">
+            <h4><i class="fa fa-android"></i> <strong>Pasang Aplikasi di Android</strong></h4>
+            <p>Untuk kemudahan akses dan pendaftaran PSM, silakan instal aplikasi ini di perangkat Android Anda.</p>
+            <button class="btn btn-success btn-lg" onclick="document.getElementById('installBtn').click();">
+                <i class="fa fa-download"></i> Download / Install Aplikasi
+            </button>
+            <br><br>
+            <small><i>*Jika tombol tidak berfungsi, gunakan menu browser "Install App" atau "Add to Home Screen".</i></small>
+        </div>
+    </div>
+</div>

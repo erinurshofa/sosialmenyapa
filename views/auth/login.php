@@ -1,199 +1,118 @@
 <?php
 
-// use app\assets\AppAsset3;
-use yii\helpers\Html;
-use yii\bootstrap5\ActiveForm;
-// AppAsset3::register($this);
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-$this->title = 'Sign In';
+use yii\helpers\Html;
+use yii\bootstrap5\ActiveForm; // Ensure bootstrap 5 or compatible
+// Fallback to bootstrap if 5 is not available, but usually template has it. 
+// If project is old (Yii2 basic), might be yii\bootstrap\ActiveForm.
+// Checking original file: "use yii\bootstrap5\ActiveForm;" was present? 
+// Original file line 5: use yii\bootstrap5\ActiveForm; -> Yes.
 
-// $fieldOptions1 = [
-//     'options' => ['class' => 'form-group has-feedback'],
-//     'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
-// ];
-$fieldOptions1 = [
-    'options' => ['class' => 'form-group has-feedback'],
-    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
-];
-
-$fieldOptions2 = [
-    'options' => ['class' => 'form-group has-feedback'],
-    'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback'></span>"
-];
-
+$this->title = 'Sign In - Sosial Menyapa';
+$this->registerCssFile('@web/css/login-modern.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::class]]);
 ?>
-<style>
-    .dropdown-container {
-      width: 100%;
-      margin: 0px auto;
-      position: relative;
-    }
 
-    .select {
-      width: 100%;
-      height: 50px;
-      font-size: 100%;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 10px;
-      background-color: #FF7B00;
-      border: none;
-      border-bottom: 2px solid #C76F1C;
-      color: white;
-      font-size: 14px;
-      appearance: none;
-      padding: 0 26px;
-      padding-right: 38px;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      transition: color 0.3s ease, background-color 0.3s ease, border-bottom-color 0.3s ease;
-    }
-
-    /* For IE <= 11 */
-    select::-ms-expand {
-      display: none; 
-    }
-
-    .select-icon {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 30px;
-      height: 36px;
-      pointer-events: none;
-      border: 2px solid #962d22;
-      padding-left: 5px;
-      transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-    .select-icon svg.icon {
-      transition: fill 0.3s ease;
-      fill: white;
-    }
-
-    select:hover,
-    select:focus {
-      color: #c0392b;
-      background-color: white;
-      border-bottom-color: #DCDCDC;
-    }
-    select:hover ~ .select-icon,
-    select:focus ~ .select-icon {
-      background-color: white;
-      border-color: #DCDCDC;
-    }
-    select:hover ~ .select-icon svg.icon,
-    select:focus ~ .select-icon svg.icon {
-      fill: #c0392b;
-    }
-    .form-control:focus {
-            border-color: red;
-            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-        }
-
-</style>    
-<body style="background-color:#666666;">
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-         
-
-<div class="login100-form">
-  <div class="login-box" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-    <div class="box box-widget widget-user-2">
-      <?php
-        $gambar="background-image:url(\"http://".$_SERVER['HTTP_HOST'].Yii::$app->urlManager->baseUrl."/theme1/img/ball-wed.svg\");opacity:1;";
-        $gambar2="background-image:url(\"http://".$_SERVER['HTTP_HOST'].Yii::$app->urlManager->baseUrl."/theme1/img/valley.svg\");opacity:1;";
-      ?>
-            <div class="widget-user-header" style=<?php //$gambar?>>
-              <!-- <div class="widget-user-image">
-                <img class="img-circle" src="theme1/img/coba.svg" alt="User Avatar" style="margin-top:10px;">
-              </div> -->
-              
-              <div class="brand-logo" style="font-size:20px;">
-               <center> <span class="glyphicon glyphicon-lock"></span> <strong >ADMIN LOGIN </strong></center>
-              </div>
-              <!-- /.widget-user-image -->
-              <h3 class="widget-user-username">
-              <!--  -->
-              <!-- <strong>SOSIAL MENYAPA</strong> -->
-              </h3>
-              <!-- <img class="img-responsive" src="images/SIDAKSOS.svg" alt="logo sidaksos" style="margin-top:-8px;"> -->
-            </div>
-            <div class="box-header">
-
-                  <div class="login-box-body">
-             
-                    <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
-
-        <?= $form
-            ->field($model, 'username', $fieldOptions1)
-            ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('username'),'style'=>'border-radius: 25px;']) ?>
-
-        <?= $form
-            ->field($model, 'password', $fieldOptions2)
-            ->label(false)
-            ->passwordInput(['placeholder' => $model->getAttributeLabel('password'),'style'=>'border-radius: 25px;']) ?>
-        <div class="dropdown-container">
-        <?php 
-        // $form->field($model, 'periode')->dropDownList(
-        //         ['oktober2020' => 'Oktober 2020','januari2020' => 'Januari 2020','oktober2019' => 'Oktober 2019','juli2019' => 'Juli 2019']
-        //     )->label('Database periode'); 
-            ?>
-</div>
-      <div class="row">
-        <div class="col-xs-12 text-green">
-            <div class="contact100-form-checkbox">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-              <div class="container-login100-form-btn">
-                  <?= Html::submitButton('<i class="fa fa-sign-in"></i> Masuk', ['class' => 'login100-form-btn', 'name' => 'login-button']) ?>
-              </div>
-            </div>
-        </div>
-         <?php ActiveForm::end(); ?>
-    </div>
-            </div>
-          </div>
-
-    <!-- /.login-box-body -->
-</div>
-<!-- /.login-box -->
-
-                   
-                </div>
-
-
-                <div class="login100-more" style="background-image: url('images/bg-01.jpg');">
-                </div>
+<div class="login-wrapper">
+    <!-- Left Side: Visual Storytelling -->
+    <div class="login-visual">
+        <div class="login-visual-content">
+            <h1>Melayani Sepenuh Hati</h1>
+            <p>Sistem Pelayanan Kesejahteraan Sosial Terpadu untuk masyarakat yang lebih sejahtera.</p>
+            
+            <div class="visual-badges">
+                <div class="badge-item">Terpercaya</div>
+                <div class="badge-item">Efisien</div>
+                <div class="badge-item">Transparan</div>
             </div>
         </div>
     </div>
+
+    <!-- Right Side: Form -->
+    <div class="login-form-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="brand-logo">
+                    <!-- Simple SVG Logo Placeholder -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <h2>Selamat Datang</h2>
+                <p>Silakan masuk menggunakan akun Anda</p>
+            </div>
+
+            <?php $form = ActiveForm::begin([
+                'id' => 'login-form', 
+                'enableClientValidation' => true,
+                'fieldConfig' => [
+                    'template' => "{label}\n{input}\n{error}",
+                    'labelOptions' => ['class' => 'form-label'],
+                    'inputOptions' => ['class' => 'form-control'],
+                    'errorOptions' => ['class' => 'text-danger mt-1 small'],
+                ],
+            ]); ?>
+
+            <div class="form-group">
+                <?= $form->field($model, 'username')->textInput(['placeholder' => 'Username', 'autofocus' => true])->label('Username') ?>
+                <!-- Icon: User -->
+                <div class="input-icon" style="top: 2.7rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <?= $form->field($model, 'password')->passwordInput(['placeholder' => 'Password'])->label('Password') ?>
+                <!-- Icon: Lock -->
+                <div class="input-icon" style="top: 2.7rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <!-- Toggle Password Visibility -->
+                <div class="password-toggle" id="togglePassword" style="top: 2.7rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <div class="remember-me">
+                     <?= $form->field($model, 'rememberMe')->checkbox([
+                         'template' => "<div class=\"custom-control custom-checkbox\">{input} {label}</div>",
+                         'class' => '', // remove default class if needed
+                     ])->label('Ingat Saya') ?>
+                </div>
+                <!-- <a href="#" class="forgot-password">Lupa Password?</a> -->
+            </div>
+
+            <div class="form-group">
+                <?= Html::submitButton('Masuk Sekarang <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>', ['class' => 'btn-primary', 'name' => 'login-button']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+
+            <div class="copyright">
+                &copy; <?= date('Y') ?> Sosial Menyapa. All rights reserved.
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php
-$js = <<< JS
-$("#klik").click(function() {
-var x = $("#loginform-username").val();
-var y = $("#loginform-password").val();
-if(x == ""){
-    var user = "maaf username harus diisi!";
-    document.getElementById("username").innerHTML = user;
-    }else{
-    document.getElementById("username").innerHTML = "";     
-    }
-if(y == ""){
-    var pass = "maaf password harus diisi";
-    document.getElementById("password").innerHTML = pass;
-    }else{
-    document.getElementById("password").innerHTML = "";     
-    }});
+$script = <<< JS
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#loginform-password');
+
+    togglePassword.addEventListener('click', function (e) {
+        // toggle the type attribute
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        // toggle the eye slash icon
+        if (type === 'text') {
+            this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+        } else {
+            this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+        }
+    });
 JS;
-$this->registerJs($js);
+$this->registerJs($script);
 ?>

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Users;
 
 /** @var yii\web\View $this */
 /** @var app\models\Psm $model */
@@ -30,6 +31,26 @@ $this->params['breadcrumbs'][] = $this->title;
                         'method' => 'post',
                     ],
                 ]) ?>
+                <?php 
+                $user = Users::findOne(['id' => $model->user_id]);
+                // Debugging (remove after use)
+                 echo "<pre>";
+                //  echo "Current User Role: " . Yii::$app->user->identity->role . "<br>";
+                 echo "PSM User exists: " . ($user ? 'Yes' : 'No') . "<br>";
+                 if ($user) {
+                     echo "PSM User Status: " . $user->status . "<br>";
+                 }
+                 echo "</pre>";
+
+                if(Yii::$app->user->identity->role == 'dinsos' && $user && in_array($user->status, ['Belum Aktif', 'Tidak Aktif'])): ?>
+                    <?= Html::a('<i class="fas fa-check"></i> Aktifkan', ['users/activate', 'id' => $user->id], [
+                        'class' => 'btn btn-success',
+                        'data' => [
+                            'confirm' => 'Yakin ingin mengaktifkan akun ini?',
+                            'method' => 'post',
+                        ],
+                    ]) ?>
+                <?php endif; ?>
             </p>
 
             <?= DetailView::widget([

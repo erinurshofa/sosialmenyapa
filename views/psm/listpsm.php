@@ -94,6 +94,12 @@ $filterkelurahan = ArrayHelper::map(Kelurahan::find()->all(), 'kelurahan_id', 'n
                 'class' => 'kartik\grid\ActionColumn',
                 'template' => '{view} {activate}',
                 'buttons' => [
+                    'view' => function ($url, $model) {
+                        return Html::a('<i class="fas fa-eye"></i>', ['view', 'id' => $model->psm_id], [
+                            'title' => 'Lihat',
+                            'class' => 'btn btn-sm btn-info',
+                        ]);
+                    },
                     'activate' => function ($url, $model) {
                         return Html::a('<i class="fas fa-check"></i>', ['users/activate', 'id' => $model->id], [
                             'title' => 'Aktifkan',
