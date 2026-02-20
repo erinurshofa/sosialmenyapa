@@ -234,6 +234,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'kondisi_keterlantaran')->dropDownList($model->listKondisiKeterlantaran(), ['prompt' => 'Pilih Kondisi Keterlantaran']) ?>
                 </div>
                 <div class="col-md-6">
+                    <?= $form->field($model, 'kondisi_kesehatan')->dropDownList($model->listKondisiKesehatan(), ['prompt' => 'Pilih Kondisi Kesehatan']) ?>
+                </div>
+                <div class="col-md-6">
                     <?= $form->field($model, 'keterangan')->textarea(['rows' => 2, 'placeholder' => 'Keterangan']) ?>
                 </div>
 

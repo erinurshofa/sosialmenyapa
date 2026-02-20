@@ -418,6 +418,7 @@ class PpksController extends Controller
             $model2->status_kawin = @$_POST['DataPpksForm']['status_kawin'];
             $model2->pekerjaan_atau_sekolah = @$_POST['DataPpksForm']['pekerjaan_atau_sekolah'];
             $model2->kondisi_keterlantaran = @$_POST['DataPpksForm']['kondisi_keterlantaran'];
+            $model2->kondisi_kesehatan = @$_POST['DataPpksForm']['kondisi_kesehatan'];
             $model2->keterangan = @$_POST['DataPpksForm']['keterangan'];
 
             // Save Foto Orang
@@ -625,6 +626,7 @@ class PpksController extends Controller
             $model->status_kawin = @$_POST['Ppks']['status_kawin'];
             $model->pekerjaan_atau_sekolah = @$_POST['Ppks']['pekerjaan_atau_sekolah'];
             $model->kondisi_keterlantaran = @$_POST['Ppks']['kondisi_keterlantaran'];
+            $model->kondisi_kesehatan = @$_POST['Ppks']['kondisi_kesehatan'];
             $model->keterangan = @$_POST['Ppks']['keterangan'];
 
             // Save Foto Orang

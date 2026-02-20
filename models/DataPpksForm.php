@@ -41,6 +41,7 @@ class DataPpksForm extends Model
     public $kondisi_keterlantaran;
     public $keterangan;
     public $jenis_disabilitas;
+    public $kondisi_kesehatan;
     public $foto_orang;
     public $foto_rumah;
 
@@ -49,7 +50,7 @@ class DataPpksForm extends Model
     {
         return [
             [['nama', 'jenis_kelamin', 'alamat_ktp', 'rt_ktp', 'rw_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'rt_domisili', 'rw_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'nomor_hp_cp'], 'required'],
-            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input'], 'string', 'max' => 255],
+            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input', 'kondisi_kesehatan'], 'string', 'max' => 255],
             [['foto_orang', 'foto_rumah'], 'string'],
             [['nik'], 'string', 'length' => 16],
             [['jenis_kelamin'], 'in', 'range' => ['LAKI-LAKI', 'PEREMPUAN']],
@@ -91,6 +92,7 @@ class DataPpksForm extends Model
             'status_kawin' => 'Status Kawin',
             'pekerjaan_atau_sekolah' => 'Pekerjaan Atau Sekolah',
             'kondisi_keterlantaran' => 'Kondisi Keterlantaran',
+            'kondisi_kesehatan' => 'Kondisi Kesehatan',
             'keterangan' => 'Keterangan',
             'foto_orang' => 'Foto Orang Yang Bersangkutan',
             'foto_rumah' => 'Foto Rumah',
@@ -164,6 +166,13 @@ class DataPpksForm extends Model
             'MASIH MEMILIKI KELUARGA TETAPI MENGALAMI TINDAK KEKERASAN PERLAKUAN SALAH EKSPLOITASI, DAN PENELANTARAN'=>'MASIH MEMILIKI KELUARGA TETAPI MENGALAMI TINDAK KEKERASAN PERLAKUAN SALAH EKSPLOITASI, DAN PENELANTARAN',
         ];
         return $array;
+    }
+
+    public function listKondisiKesehatan() {
+        return [
+            'SEHAT' => 'SEHAT',
+            'TIDAK SEHAT / SAKIT' => 'TIDAK SEHAT / SAKIT',
+        ];
     }
 
     public function listJenisKelamin(){
