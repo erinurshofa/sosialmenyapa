@@ -20,7 +20,7 @@ $modelKelurahan = $model->kelurahan_id ?? null;
 $modelKecamatan = $model->kecamatan_id ?? null;
 
 // Tentukan foto profil
-$fotoUrl = !empty($model->foto) ? Url::to('@web/uploads/' . $model->foto) : Url::to('@web/img/avatar.png');
+$fotoUrl = !empty($model->foto) ? Url::to('@web/uploads/' . $model->foto) : Url::to('@web/dist/img/avatar.png');
 
 // Kategori List Array
 $kategoriList = [
