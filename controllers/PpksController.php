@@ -498,8 +498,7 @@ class PpksController extends Controller
         if (!is_null($q)) {
             $query = Ppks::find()
                 ->where(['or', ['like', 'nik', $q], ['like', 'nama', $q]])
-                ->andWhere(['status' => 'AKTIF'])
-                ->andWhere(['apakah_terlantar' => 'Ya'])
+                ->andWhere(['status' => [null, 'AKTIF', '']])
                 ->limit(20)
                 ->all();
                 
