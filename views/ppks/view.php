@@ -244,6 +244,67 @@ $modelKecamatan = $model->kecamatan_id ?? null;
 </div>
 
 
+    </div>
+</div>
+
+<div class="ppks-view p-2 mt-4 border-top pt-4">
+    <h4 class="mb-3"><i class="fa fa-history text-info"></i> Riwayat Layanan PPKS</h4>
+    <?php
+    $layananTerlantar = \app\models\PpksLayananTerlantar::find()->where(['ppks_id' => $model->id])->orderBy(['tanggal_layanan' => SORT_DESC])->all();
+    $layananNonTerlantar = \app\models\PpksLayananNonTerlantar::find()->where(['ppks_id' => $model->id])->orderBy(['tanggal_layanan' => SORT_DESC])->all();
+    
+    $hasHistory = !empty($layananTerlantar) || !empty($layananNonTerlantar);
+    ?>
+
+    <?php if (!$hasHistory): ?>
+        <div class="alert alert-warning text-center">
+            <i class="fa fa-info-circle"></i> Belum ada rekaman riwayat layanan untuk PPKS ini.
+        </div>
+    <?php else: ?>
+        <ul class="timeline" style="list-style-type: none; padding-left: 0;">
+            
+            <?php foreach ($layananTerlantar as $hist): ?>
+            <li class="mb-3 p-3 border rounded shadow-sm bg-light">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="text-primary mb-1">
+                            <i class="fa fa-medkit"></i> <?= $hist->layanan ? Html::encode($hist->layanan->nama_layanan) : 'Layanan Terhapus' ?> 
+                            <span class="badge badge-danger">Layanan Terlantar</span>
+                        </h5>
+                        <p class="mb-1 text-muted"><strong>Status Keluar:</strong> <?= $hist->status ? Html::encode($hist->status->nama_status) : '-' ?></p>
+                        <p class="mb-0 text-muted"><i class="fa fa-sticky-note-o"></i> <?= nl2br(Html::encode($hist->keterangan)) ?></p>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <div class="text-muted small"><i class="fa fa-calendar-plus-o"></i> Masuk: <?= $hist->tanggal_masuk ? date('d M Y', strtotime($hist->tanggal_masuk)) : '-' ?></div>
+                        <div class="text-dark font-weight-bold"><i class="fa fa-calendar-check-o"></i> Keluar/Dilayani: <?= date('d M Y', strtotime($hist->tanggal_layanan)) ?></div>
+                        <div class="text-black-50 small mt-2"><i class="fa fa-user"></i> Dibuat oleh: <?= Html::encode($hist->dibuat_oleh) ?></div>
+                    </div>
+                </div>
+            </li>
+            <?php endforeach; ?>
+
+            <?php foreach ($layananNonTerlantar as $hist2): ?>
+            <li class="mb-3 p-3 border rounded shadow-sm bg-light">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="text-success mb-1">
+                            <i class="fa fa-medkit"></i> <?= $hist2->layanan ? Html::encode($hist2->layanan->nama_layanan) : 'Layanan Terhapus' ?>
+                            <span class="badge badge-success">Layanan Non-Terlantar</span>
+                        </h5>
+                        <p class="mb-0 text-muted"><i class="fa fa-sticky-note-o"></i> <?= nl2br(Html::encode($hist2->keterangan)) ?></p>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <div class="text-muted small"><i class="fa fa-calendar-plus-o"></i> Masuk: <?= $hist2->tanggal_masuk ? date('d M Y', strtotime($hist2->tanggal_masuk)) : '-' ?></div>
+                        <div class="text-dark font-weight-bold"><i class="fa fa-calendar-check-o"></i> Dilayani: <?= date('d M Y', strtotime($hist2->tanggal_layanan)) ?></div>
+                        <div class="text-black-50 small mt-2"><i class="fa fa-user"></i> Dibuat oleh: <?= Html::encode($hist2->dibuat_oleh) ?></div>
+                    </div>
+                </div>
+            </li>
+            <?php endforeach; ?>
+
+        </ul>
+    <?php endif; ?>
+</div>
 
     </div>
-    </div>
+</div>
