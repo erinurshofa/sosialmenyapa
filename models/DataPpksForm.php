@@ -52,11 +52,16 @@ class DataPpksForm extends Model
     public function rules()
     {
         return [
-            [['nama', 'jenis_kelamin', 'alamat_ktp', 'rt_ktp', 'rw_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'rt_domisili', 'rw_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'nomor_hp_cp'], 'required'],
-            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input', 'kondisi_kesehatan', 'apakah_terlantar', 'keterangan_disabilitas_ganda', 'keterangan_di_luar_keluarga'], 'string', 'max' => 255],
-            [['foto_orang', 'foto_rumah'], 'string'],
-            [['nik'], 'string', 'length' => 16],
-            [['jenis_kelamin'], 'in', 'range' => ['LAKI-LAKI', 'PEREMPUAN']],
+            [['nik', 'nama','alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili'], 'required'],
+            [['tanggal_lahir', 'tanggal_masuk_panti', 'tanggal_keluar_panti', 'tanggal_input'], 'safe'],
+            [['foto', 'foto_rumah'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 2],
+            [['lat_orang', 'long_orang', 'lat_rumah', 'long_rumah'], 'string', 'max' => 50],
+            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input', 'kondisi_kesehatan', 'keterangan_disabilitas_ganda', 'keterangan_di_luar_keluarga'], 'string', 'max' => 255],
+            [['jks_kis_jaminan_kesehatan_lainnya', 'blt_bpnt_pkh_bantuan_lainnya'], 'string', 'max' => 50],
+            [['rt_ktp', 'rw_ktp', 'rt_domisili', 'rw_domisili', 'nomor_hp_cp'], 'string', 'max' => 10],
+            [['nik', 'no_kk'], 'string', 'max' => 20],
+            [['apakah_terlantar'], 'integer'],
+            [['foto', 'foto_rumah'], 'safe'],
             // [['masuk_dtks'], 'in', 'range' => ['YA', 'TIDAK']],
             // [['punya_ktp'], 'in', 'range' => ['PUNYA', 'TIDAK PUNYA']],
             [['khusus_penyandang_disabilitas'], 'in', 'range' => ['TERLANTAR', 'TIDAK TERLANTAR']],
@@ -167,8 +172,8 @@ class DataPpksForm extends Model
 
     public function listApakahTerlantar() {
         return [
-            'YA' => 'YA',
-            'TIDAK' => 'TIDAK',
+            1 => 'YA',
+            0 => 'TIDAK',
         ];
     }
 
