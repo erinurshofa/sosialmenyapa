@@ -308,11 +308,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             </thead>
                             <tbody>
                             <?php
+                            $realNum = 1;
                             foreach ($jenis_pmks as $key => $value) {
                                 echo "<tr>";
                                 echo "<td class='text-center'>".$no++."</td>";
-                                echo "<td class='text-center'>".($key + 1)."</td>";
-                                echo "<td><input type='checkbox' name='pmks[".$value->kode."]'>".$value->nama."</td>";
+                                
+                                // Penomoran khusus (Kode PPKS)
+                                if ($value->kode === 'kelompok_minoritas_waria') {
+                                    $kodePpks = '14a';
+                                } elseif ($value->kode === 'kelompok_minoritas_gay') {
+                                    $kodePpks = '14b';
+                                } else {
+                                    $kodePpks = $realNum++;
+                                }
+
+                                echo "<td class='text-center'>".$kodePpks."</td>";
+                                echo "<td><input type='checkbox' name='pmks[".$value->kode."]'> ".Html::encode($value->nama)."</td>";
                                 $kriterias=JenisPmksKriteria::find()->where(['kode' =>$value->kode])->all();
                                 $template="Kriteria : </br> <ul style='list-style-type: none; padding-left: 0;'>";
                                 echo "<td>";
