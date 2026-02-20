@@ -8,6 +8,9 @@ $this->params['breadcrumbs'][] = ['label' => 'PPKS', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $urlSearch = Url::to(['cari-ppks-layanan-ajax']);
+
+// Initialize Select2 Asset
+\kartik\select2\Select2Asset::register($this);
 ?>
 
 <style>
