@@ -347,6 +347,7 @@
                                   'icon' => 'users text-green',
                                   'items' => [
                                     ['label' => 'APPROVE PPKS', 'icon' => 'book text-red', 'url' => ['ppks/listdata']],
+                                    ['label' => 'Konfirmasi Pemutakhiran', 'icon' => 'sync-alt text-primary', 'url' => ['ppks/konfirmasi-mutakhir']],
                                     ['label' => 'APPROVE PSM', 'icon' => 'book text-orange', 'url' => ['psm/listpsm']],
                                     // ['label' => 'Validasi Santunan Kematian', 'icon' => 'clipboard-check text-green', 'url' => ['santunan-kematian/listdata']],
                                     ['label' => 'Validasi Santunan Disabilitas', 'icon' => 'clipboard-check text-blue', 'url' => ['santunan-disabilitas/listdata']],
@@ -401,6 +402,7 @@
                                       'url' => '#',
                                       'items' => [
                                           ['label' => 'Input PPKS', 'icon' => 'file-alt text-warning', 'url' => ['ppks/inputdatappks']],
+                                          ['label' => 'Pemutakhiran Data', 'icon' => 'sync-alt text-info', 'url' => ['ppks/list-mutakhir-psm']],
                                         //   ['label' => 'Santunan Kematian', 'icon' => 'file-alt text-red', 'url' => ['santunan-kematian/create']],
                                           ['label' => 'Santunan Disabilitas', 'icon' => 'file-alt text-success', 'url' => ['santunan-disabilitas/create']],
                                       ],

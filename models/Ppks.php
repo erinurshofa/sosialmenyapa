@@ -128,7 +128,7 @@ class Ppks extends \yii\db\ActiveRecord
             [['tanggal_verifikasi', 'tanggal_validasi', 'tanggal_approval', 'created_at', 'updated_at'], 'safe'],
             [['nama', 'jenis_kelamin', 'provinsi_id', 'provinsi', 'kota_id', 'kota', 'kecamatan_id', 'kecamatan', 'kelurahan_id', 'kelurahan', 'provinsi_domisili_id', 'provinsi_domisili', 'kota_domisili_id', 'kota_domisili', 'kecamatan_domisili_id', 'kecamatan_domisili', 'kelurahan_domisili_id', 'kelurahan_domisili', 'jenis_ppks_fix', 'jenis_disabilitas', 'sumber_data', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'punya_ktp', 'nama_cp', 'nomor_hp_cp', 'khusus_penyandang_disabilitas', 'tanggal_input', 'kondisi_kesehatan', 'apakah_terlantar', 'keterangan_disabilitas_ganda', 'keterangan_di_luar_keluarga'], 'string', 'max' => 255],
             [['nik', 'cek_double', 'no_kk'], 'string', 'max' => 16],
-            [['verifikasi', 'diverifikasi','keterangan_verifikasi', 'status_verifikasi', 'validasi', 'status_validasi', 'status_permohonan', 'approved', 'approved_by', 'dibuat', 'diedit'], 'string', 'max' => 50],
+            [['verifikasi', 'diverifikasi','keterangan_verifikasi', 'status_verifikasi', 'validasi', 'status_validasi', 'status_permohonan', 'approved', 'approved_by', 'dibuat', 'diedit', 'status'], 'string', 'max' => 50],
             [['nik'], 'unique'],
         ];
     }
@@ -247,6 +247,7 @@ class Ppks extends \yii\db\ActiveRecord
             'diedit' => 'Diedit',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'status' => 'Status',
         ];
     }
 
@@ -279,5 +280,22 @@ class Ppks extends \yii\db\ActiveRecord
     public function getDsen()
     {
         return $this->hasOne(Dsen::className(), ['id' => 'dsen_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getKecamatan()
+    {
+        return $this->hasOne(Kecamatan::class, ['id' => 'kecamatan_id']);
+    }
+
+    public function listStatusPpks() {
+        return [
+            'AKTIF' => 'AKTIF',
+            'MENINGGAL DUNIA' => 'MENINGGAL DUNIA',
+            'PINDAH TIDAK DITEMPAT' => 'PINDAH TIDAK DITEMPAT',
+            'MAMPU' => 'MAMPU',
+        ];
     }
 }

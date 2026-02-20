@@ -308,6 +308,132 @@ class PpksController extends Controller
         ]);
     }
 
+    public function actionListMutakhirPsm()
+    {
+        $request = Yii::$app->request;
+        $kecamatan_id = @Yii::$app->user->identity->kecamatan_id;
+        $kelurahan_id = @Yii::$app->user->identity->kelurahan_id;
+        $username = @Yii::$app->user->identity->username;
+        $role = @Yii::$app->user->identity->role;
+        $nama_kecamatan = strtoupper(@Kecamatan::find()->where(['id_lama' => $kecamatan_id])->one()->nama);
+        $nama_kelurahan = strtoupper(@Kelurahan::find()->where(['kelurahan_id' => $kelurahan_id])->one()->nama);
+        
+        $query = Ppks::find();
+        if ($role=='kelurahan') {
+            $query->where(['kecamatan' => $nama_kecamatan])
+                  ->andWhere(['kelurahan' => $nama_kelurahan])
+                  ->orWhere(['diverifikasi' => $username]);
+        }elseif($role=='kecamatan'){
+            $query->where(['kecamatan' => $nama_kecamatan])
+                  ->orWhere(['divalidasi' => $username]);
+        }
+
+        if ($search = $request->get('search')) {
+            $query->andWhere([
+                'or',
+                ['like', 'nama', $search],
+                ['like', 'nik', $search],
+                ['like', 'alamat', $search],
+            ]);
+        }
+    
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 10],
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
+        ]);
+    
+        return $this->render('list_mutakhir_psm', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionFormMutakhir($id)
+    {
+        $model = $this->findModel($id);
+        $modelMutakhir = current(\app\models\PpksMutakhirStatus::find()->where(['ppks_id' => $id])->orderBy(['id'=>SORT_DESC])->all());
+        // JIKA sedang menunggu konfirmasi, tidak boleh submit lagi
+        
+        if(!$modelMutakhir || $modelMutakhir->status_pengajuan != 'MENUNGGU KONFIRMASI') {
+            $modelMutakhir = new \app\models\PpksMutakhirStatus();
+        }
+
+        if (Yii::$app->request->isPost && $modelMutakhir->isNewRecord) {
+            $modelMutakhir->ppks_id = $model->id;
+            $modelMutakhir->status_sebelumnya = $model->status ? $model->status : 'AKTIF';
+            $modelMutakhir->status_baru = $_POST['PpksMutakhirStatus']['status_baru'];
+            $modelMutakhir->status_pengajuan = 'MENUNGGU KONFIRMASI';
+            $modelMutakhir->created_by = Yii::$app->user->identity->id;
+
+            $file = \yii\web\UploadedFile::getInstance($modelMutakhir, 'dokumen_pendukung');
+            if ($file) {
+                $filename = 'dokumen_' . time() . '_' . uniqid() . '.' . $file->extension;
+                $filepath = Yii::getAlias('@webroot') . '/uploads/mutakhir/' . $filename;
+                if (!is_dir(dirname($filepath))) {
+                    mkdir(dirname($filepath), 0777, true);
+                }
+                $file->saveAs($filepath);
+                $modelMutakhir->dokumen_pendukung = $filename;
+            } else {
+                Yii::$app->session->setFlash('error', 'Dokumen pendukung wajib diunggah!');
+                return $this->redirect(['form-mutakhir', 'id' => $id]);
+            }
+
+            if ($modelMutakhir->save(false)) {
+                Yii::$app->session->setFlash('success', 'Pengajuan pemutakhiran status berhasil dikirim!');
+                return $this->redirect(['list-mutakhir-psm']);
+            }
+        }
+
+        return $this->render('form_mutakhir', [
+            'model' => $model,
+            'modelMutakhir' => $modelMutakhir,
+        ]);
+    }
+
+    public function actionKonfirmasiMutakhir()
+    {
+        $query = \app\models\PpksMutakhirStatus::find()->orderBy(['id' => SORT_DESC]);
+        
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 10],
+        ]);
+    
+        return $this->render('konfirmasi_mutakhir', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionSetujuiMutakhir($id)
+    {
+        $model = \app\models\PpksMutakhirStatus::findOne($id);
+        if ($model) {
+            $model->status_pengajuan = 'DISETUJUI';
+            $model->updated_by = Yii::$app->user->identity->id;
+            if ($model->save(false)) {
+                $ppks = $model->ppks;
+                $ppks->status = $model->status_baru;
+                $ppks->save(false);
+                Yii::$app->session->setFlash('success', 'Pengajuan disetujui! Status PPKS berhasil diubah.');
+            }
+        }
+        return $this->redirect(['konfirmasi-mutakhir']);
+    }
+
+    public function actionTolakMutakhir($id)
+    {
+        $model = \app\models\PpksMutakhirStatus::findOne($id);
+        if ($model && Yii::$app->request->isPost) {
+            $model->status_pengajuan = 'DITOLAK';
+            $model->keterangan_penolakan = Yii::$app->request->post('keterangan_penolakan');
+            $model->updated_by = Yii::$app->user->identity->id;
+            $model->save(false);
+            Yii::$app->session->setFlash('success', 'Pengajuan ditolak.');
+        }
+        return $this->redirect(['konfirmasi-mutakhir']);
+    }
+
 
     
     public function actionUpdate($id)
