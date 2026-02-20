@@ -300,7 +300,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">Kode</th>
+                                    <th class="text-center">Kode PPKS</th>
+                                    <th class="text-center">Jenis PPKS</th>
                                     <th class="text-center">Kriteria</th>
                                     <!-- <th class="text-center" width="200px">Pilih</th> -->
                                 </tr>
@@ -310,12 +311,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             foreach ($jenis_pmks as $key => $value) {
                                 echo "<tr>";
                                 echo "<td class='text-center'>".$no++."</td>";
+                                echo "<td class='text-center'>".($key + 1)."</td>";
                                 echo "<td><input type='checkbox' name='pmks[".$value->kode."]'>".$value->nama."</td>";
                                 $kriterias=JenisPmksKriteria::find()->where(['kode' =>$value->kode])->all();
-                                $template="Kriteria : </br> <ul style='list-style-type: lower-alpha;'>";
+                                $template="Kriteria : </br> <ul style='list-style-type: none; padding-left: 0;'>";
                                 echo "<td>";
                                 foreach ($kriterias as $key2 => $value2) {
-                                    $template.="<li>".$value2->kriteria."</li>";
+                                    $kodeAwalan = empty($value2->urutan) ? "" : "<strong>".$value2->urutan.".</strong> &nbsp;";
+                                    $template.="<li>". $kodeAwalan . $value2->kriteria."</li>";
                                 }
                                 $template.= "</ul>";
                                 echo $template;
