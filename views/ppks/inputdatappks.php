@@ -293,7 +293,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="box-body p-2">
             <?php 
             $no=1;
-            $jenis_pmks=JenisPmks::find()->all();
+            // Urutkan secara khusus agar kel. minoritas waria dan gay tampil persis di bawah Kelompok Minoritas (ID 14)
+            $jenis_pmks = JenisPmks::find()->orderBy([
+                new \yii\db\Expression("
+                    CASE 
+                        WHEN kode = 'kelompok_minoritas' THEN 14.0
+                        WHEN kode = 'kelompok_minoritas_waria' THEN 14.1
+                        WHEN kode = 'kelompok_minoritas_gay' THEN 14.2
+                        ELSE id 
+                    END ASC
+                ")
+            ])->all();
             ?>
             <div class="table-responsive">
                         <table class="table table-bordered table-striped">
