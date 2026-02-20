@@ -434,6 +434,88 @@ class PpksController extends Controller
         return $this->redirect(['konfirmasi-mutakhir']);
     }
 
+    public function actionInputLayananTerlantar()
+    {
+        $request = Yii::$app->request;
+
+        if ($request->isPost) {
+            $kalayans = $request->post('kalayan');
+            $status_id = $request->post('status_id');
+            $tanggal_masuk = $request->post('tanggal_masuk');
+            $tanggal_keluar = $request->post('tanggal_keluar');
+            $keterangan = $request->post('keterangan');
+
+            if (empty($kalayans) || !is_array($kalayans)) {
+                Yii::$app->session->setFlash('error', 'Daftar kalayan tidak boleh kosong!');
+                return $this->redirect(['input-layanan-terlantar']);
+            }
+
+            $successCount = 0;
+            $errorCount = 0;
+
+            foreach ($kalayans as $k) {
+                if (isset($k['ppks_id']) && isset($k['layanan']) && is_array($k['layanan'])) {
+                    foreach ($k['layanan'] as $layanan_id) {
+                        $model = new \app\models\PpksLayananTerlantar();
+                        $model->ppks_id = $k['ppks_id'];
+                        $model->layanan_id = $layanan_id;
+                        $model->status_id = $status_id;
+                        $model->tanggal_masuk = $tanggal_masuk;
+                        $model->tanggal_layanan = $tanggal_keluar;
+                        $model->keterangan = $keterangan;
+                        $model->dibuat_oleh = Yii::$app->user->identity->username;
+
+                        if ($model->save()) {
+                            $successCount++;
+                        } else {
+                            $errorCount++;
+                        }
+                    }
+                }
+            }
+
+            if ($errorCount == 0) {
+                Yii::$app->session->setFlash('success', "Berhasil menyimpan $successCount layanan terlantar!");
+                return $this->redirect(['input-layanan-terlantar']);
+            } else {
+                Yii::$app->session->setFlash('warning', "Menyimpan $successCount layanan terlantar, namun ada $errorCount yang gagal.");
+            }
+        }
+
+        $listStatus = \yii\helpers\ArrayHelper::map(\app\models\RefStatusTerlantar::find()->where(['aktif' => 'Y'])->all(), 'id', 'nama_status');
+        $listLayanan = \yii\helpers\ArrayHelper::map(\app\models\RefLayananPpks::find()->where(['aktif' => 'Y'])->all(), 'id', 'nama_layanan');
+
+        return $this->render('input_layanan_terlantar', [
+            'listStatus' => $listStatus,
+            'listLayanan' => $listLayanan,
+        ]);
+    }
+
+    public function actionCariPpksLayananAjax($q = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => []];
+        if (!is_null($q)) {
+            $query = Ppks::find()
+                ->where(['or', ['like', 'nik', $q], ['like', 'nama', $q]])
+                ->andWhere(['status' => 'AKTIF'])
+                ->andWhere(['apakah_terlantar' => 'Ya'])
+                ->limit(20)
+                ->all();
+                
+            foreach ($query as $row) {
+                $out['results'][] = [
+                    'id' => $row->id,
+                    'text' => $row->nik . ' - ' . $row->nama,
+                    'nama' => $row->nama,
+                    'nik' => $row->nik,
+                    'alamat' => $row->alamat,
+                ];
+            }
+        }
+        return $out;
+    }
+
 
     
     public function actionUpdate($id)

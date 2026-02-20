@@ -283,6 +283,7 @@
                               'url' => '#',
                               'items' => [
                                 ['label' => 'Validasi PPKS', 'icon' => 'clipboard-check text-secondary', 'url' => ['ppks/listdata']],
+                                ['label' => 'Input Layanan Terlantar', 'icon' => 'plus-square text-primary', 'url' => ['ppks/input-layanan-terlantar']],
                                 // ['label' => 'Validasi Santunan Kematian', 'icon' => 'clipboard-check text-secondary', 'url' => ['santunan-kematian/listdata']],
                                 ['label' => 'Validasi Santunan Disabilitas', 'icon' => 'clipboard-check text-secondary', 'url' => ['santunan-disabilitas/listdata']],
                               ],
@@ -348,6 +349,7 @@
                                   'items' => [
                                     ['label' => 'APPROVE PPKS', 'icon' => 'book text-red', 'url' => ['ppks/listdata']],
                                     ['label' => 'Konfirmasi Pemutakhiran', 'icon' => 'sync-alt text-primary', 'url' => ['ppks/konfirmasi-mutakhir']],
+                                    ['label' => 'Input Layanan Terlantar', 'icon' => 'plus-square text-success', 'url' => ['ppks/input-layanan-terlantar']],
                                     ['label' => 'APPROVE PSM', 'icon' => 'book text-orange', 'url' => ['psm/listpsm']],
                                     // ['label' => 'Validasi Santunan Kematian', 'icon' => 'clipboard-check text-green', 'url' => ['santunan-kematian/listdata']],
                                     ['label' => 'Validasi Santunan Disabilitas', 'icon' => 'clipboard-check text-blue', 'url' => ['santunan-disabilitas/listdata']],
