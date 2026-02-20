@@ -37,15 +37,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="box-body p-2">
                 <div class="row">
                     <div class="col-md-6">
+                        <?= $form->field($model, 'tanggal_input')->input('date')->label('Tanggal Input') ?>
                         <?= $form->field($model, 'nama')->textInput(['placeholder' => 'Masukkan Nama Lengkap']) ?>
                         <?= $form->field($model, 'nik')->textInput(['maxlength' => 16, 'placeholder' => 'Masukkan NIK'])->label('NOMOR INDUK KEPENDUDUKAN (NIK)') ?>
                         <?= $form->field($model, 'no_kk')->textInput(['maxlength' => 16, 'placeholder' => 'Masukkan KK'])->label('NOMOR KARTU KELUARGA (KK)') ?>
-                        <?= $form->field($model, 'tanggal_input')->input('date')->label('Tanggal Input') ?>
+                        
                         
                     </div>
                     <div class="col-md-6">
                         <?= $form->field($model, 'punya_ktp')->dropDownList($model->punyaKtp(), ['prompt' => 'Pilih Kepemilikan KTP']) ?>
-                        <?= $form->field($model, 'dsen_id')->dropDownList($model->listDsen(), ['prompt' => 'Pilih Status Desil']) ?>
+                        <?= $form->field($model, 'dsen_id')->dropDownList($model->listDsen(), ['prompt' => 'Pilih Status Desil'])->label('DSEN') ?>
                         <?= $form->field($model, 'jenis_kelamin')->dropDownList($model->listJenisKelamin(), ['prompt' => 'Pilih Jenis Kelamin']) ?>
 
                         
@@ -231,7 +232,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'pekerjaan_atau_sekolah')->dropDownList($model->pekerjaanAtauSekolah(), ['prompt' => 'Pilih Pekerjaan atau Sekolah']) ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($model, 'kondisi_keterlantaran')->dropDownList($model->listKondisiKeterlantaran(), ['prompt' => 'Pilih Kondisi Keterlantaran']) ?>
+                    <?= $form->field($model, 'apakah_terlantar')->dropDownList($model->listApakahTerlantar(), ['prompt' => 'Pilih Apakah Terlantar?', 'id' => 'select_apakah_terlantar']) ?>
+                </div>
+                <div class="col-md-6" id="container_kondisi_keterlantaran" style="display: none;">
+                    <?= $form->field($model, 'kondisi_keterlantaran')->dropDownList($model->listKondisiKeterlantaran(), ['prompt' => 'Pilih Kondisi Keterlantaran', 'id' => 'select_kondisi_keterlantaran']) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'kondisi_kesehatan')->dropDownList($model->listKondisiKesehatan(), ['prompt' => 'Pilih Kondisi Kesehatan']) ?>
@@ -278,7 +282,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box box-navy box-solid" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
                 <div class="box-header bg-white p-2">
                     <i class="fa fa-fw fa-book"></i>
-                    <strong>PILIH JENIS PMKS</strong>
+                    <strong>PILIH JENIS PPKS</strong>
                 </div>
                 <div class="box-body p-2">
             <?php 
@@ -423,6 +427,18 @@ function processPhotoWithGPS(inputId, canvasId, statusId, hiddenDataId, previewI
     const status = document.getElementById(statusId);
     const hiddenData = document.getElementById(hiddenDataId);
     const preview = document.getElementById(previewId);
+
+    // Toggle logic for whether or not "Kondisi Keterlantaran" should be shown
+    $('#select_apakah_terlantar').on('change', function() {
+        if ($(this).val() === 'YA') {
+            $('#container_kondisi_keterlantaran').slideDown();
+        } else {
+            $('#container_kondisi_keterlantaran').slideUp();
+            $('#select_kondisi_keterlantaran').val(''); // Reset
+        }
+    });
+    // Trigger on load if there's old data
+    $('#select_apakah_terlantar').trigger('change');
 
     input.addEventListener('change', function(e) {
         if (e.target.files && e.target.files[0]) {

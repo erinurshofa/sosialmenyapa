@@ -417,6 +417,7 @@ class PpksController extends Controller
             $model2->hubungan_dgn_kepala_keluarga = @$_POST['DataPpksForm']['hubungan_dgn_kepala_keluarga'];
             $model2->status_kawin = @$_POST['DataPpksForm']['status_kawin'];
             $model2->pekerjaan_atau_sekolah = @$_POST['DataPpksForm']['pekerjaan_atau_sekolah'];
+            $model2->apakah_terlantar = @$_POST['DataPpksForm']['apakah_terlantar'];
             $model2->kondisi_keterlantaran = @$_POST['DataPpksForm']['kondisi_keterlantaran'];
             $model2->kondisi_kesehatan = @$_POST['DataPpksForm']['kondisi_kesehatan'];
             $model2->keterangan = @$_POST['DataPpksForm']['keterangan'];
@@ -625,6 +626,7 @@ class PpksController extends Controller
             $model->hubungan_dgn_kepala_keluarga = @$_POST['Ppks']['hubungan_dgn_kepala_keluarga'];
             $model->status_kawin = @$_POST['Ppks']['status_kawin'];
             $model->pekerjaan_atau_sekolah = @$_POST['Ppks']['pekerjaan_atau_sekolah'];
+            $model->apakah_terlantar = @$_POST['Ppks']['apakah_terlantar'];
             $model->kondisi_keterlantaran = @$_POST['Ppks']['kondisi_keterlantaran'];
             $model->kondisi_kesehatan = @$_POST['Ppks']['kondisi_kesehatan'];
             $model->keterangan = @$_POST['Ppks']['keterangan'];

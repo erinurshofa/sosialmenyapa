@@ -44,13 +44,14 @@ class DataPpksForm extends Model
     public $kondisi_kesehatan;
     public $foto_orang;
     public $foto_rumah;
+    public $apakah_terlantar;
 
 
     public function rules()
     {
         return [
             [['nama', 'jenis_kelamin', 'alamat_ktp', 'rt_ktp', 'rw_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'rt_domisili', 'rw_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'nomor_hp_cp'], 'required'],
-            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input', 'kondisi_kesehatan'], 'string', 'max' => 255],
+            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input', 'kondisi_kesehatan', 'apakah_terlantar'], 'string', 'max' => 255],
             [['foto_orang', 'foto_rumah'], 'string'],
             [['nik'], 'string', 'length' => 16],
             [['jenis_kelamin'], 'in', 'range' => ['LAKI-LAKI', 'PEREMPUAN']],
@@ -91,6 +92,7 @@ class DataPpksForm extends Model
             'hubungan_dgn_kepala_keluarga' => 'Hubungan Dgn Kepala Keluarga',
             'status_kawin' => 'Status Kawin',
             'pekerjaan_atau_sekolah' => 'Pekerjaan Atau Sekolah',
+            'apakah_terlantar' => 'Apakah Terlantar?',
             'kondisi_keterlantaran' => 'Kondisi Keterlantaran',
             'kondisi_kesehatan' => 'Kondisi Kesehatan',
             'keterangan' => 'Keterangan',
@@ -159,6 +161,14 @@ class DataPpksForm extends Model
         $array = ['DI DALAM KELUARGA'=>'DI DALAM KELUARGA','DI LUAR KELUARGA'=>'DI LUAR KELUARGA'];
         return $array;
     }
+
+    public function listApakahTerlantar() {
+        return [
+            'YA' => 'YA',
+            'TIDAK' => 'TIDAK',
+        ];
+    }
+
     public function listKondisiKeterlantaran(){
         $array = [
             'KELUARGA/MASYARAKAT/SESEORANG TIDAK MENGURUS'=>'KELUARGA/MASYARAKAT/SESEORANG TIDAK MENGURUS',
