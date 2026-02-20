@@ -46,13 +46,14 @@ class DataPpksForm extends Model
     public $foto_orang;
     public $foto_rumah;
     public $apakah_terlantar;
+    public $keterangan_di_luar_keluarga;
 
 
     public function rules()
     {
         return [
             [['nama', 'jenis_kelamin', 'alamat_ktp', 'rt_ktp', 'rw_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'rt_domisili', 'rw_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'nomor_hp_cp'], 'required'],
-            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input', 'kondisi_kesehatan', 'apakah_terlantar', 'keterangan_disabilitas_ganda'], 'string', 'max' => 255],
+            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input', 'kondisi_kesehatan', 'apakah_terlantar', 'keterangan_disabilitas_ganda', 'keterangan_di_luar_keluarga'], 'string', 'max' => 255],
             [['foto_orang', 'foto_rumah'], 'string'],
             [['nik'], 'string', 'length' => 16],
             [['jenis_kelamin'], 'in', 'range' => ['LAKI-LAKI', 'PEREMPUAN']],
@@ -98,6 +99,7 @@ class DataPpksForm extends Model
             'kondisi_kesehatan' => 'Kondisi Kesehatan',
             'keterangan' => 'Keterangan',
             'keterangan_disabilitas_ganda' => 'Keterangan Disabilitas Ganda',
+            'keterangan_di_luar_keluarga' => 'Keterangan Di Luar Keluarga',
             'foto_orang' => 'Foto Orang Yang Bersangkutan',
             'foto_rumah' => 'Foto Rumah',
         ];

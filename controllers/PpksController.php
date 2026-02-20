@@ -415,6 +415,7 @@ class PpksController extends Controller
             $model2->tempat_lahir = @$_POST['DataPpksForm']['tempat_lahir'];
             $model2->tanggal_lahir = @$_POST['DataPpksForm']['tanggal_lahir'];
             $model2->tinggal_dalam_keluarga = @$_POST['DataPpksForm']['tinggal_dalam_keluarga'];
+            $model2->keterangan_di_luar_keluarga = @$_POST['DataPpksForm']['keterangan_di_luar_keluarga'];
             $model2->hubungan_dgn_kepala_keluarga = @$_POST['DataPpksForm']['hubungan_dgn_kepala_keluarga'];
             $model2->status_kawin = @$_POST['DataPpksForm']['status_kawin'];
             $model2->pekerjaan_atau_sekolah = @$_POST['DataPpksForm']['pekerjaan_atau_sekolah'];
@@ -625,6 +626,7 @@ class PpksController extends Controller
             $model->tempat_lahir = @$_POST['Ppks']['tempat_lahir'];
             $model->tanggal_lahir = @$_POST['Ppks']['tanggal_lahir'];
             $model->tinggal_dalam_keluarga = @$_POST['Ppks']['tinggal_dalam_keluarga'];
+            $model->keterangan_di_luar_keluarga = @$_POST['Ppks']['keterangan_di_luar_keluarga'];
             $model->hubungan_dgn_kepala_keluarga = @$_POST['Ppks']['hubungan_dgn_kepala_keluarga'];
             $model->status_kawin = @$_POST['Ppks']['status_kawin'];
             $model->pekerjaan_atau_sekolah = @$_POST['Ppks']['pekerjaan_atau_sekolah'];

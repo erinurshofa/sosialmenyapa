@@ -211,7 +211,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-body p-2">
             <div class="row">
                 <div class="col-md-6">
-                    <?= $form->field($model, 'tinggal_dalam_keluarga')->dropDownList($model->listTinggalDalamKeluarga(), ['prompt' => 'Pilih Status Tinggal Dalam Keluarga']) ?>
+                    <?= $form->field($model, 'tinggal_dalam_keluarga')->dropDownList($model->listTinggalDalamKeluarga(), ['prompt' => 'Pilih Status Tinggal Dalam Keluarga', 'id' => 'select_tinggal_dalam_keluarga']) ?>
+                </div>
+                <div class="col-md-6" id="container_keterangan_di_luar_keluarga" style="display: none;">
+                    <?= $form->field($model, 'keterangan_di_luar_keluarga')->textInput(['placeholder' => 'Sebutkan keterangan jika tinggal di luar keluarga...']) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'tempat_lahir')->textInput(['placeholder' => 'Tempat Lahir']) ?>
@@ -454,6 +457,18 @@ function processPhotoWithGPS(inputId, canvasId, statusId, hiddenDataId, previewI
     });
     // Trigger on load
     $('#select_jenis_disabilitas').trigger('change');
+
+    // Toggle logic for whether or not "Keterangan Di Luar Keluarga" should be shown
+    $('#select_tinggal_dalam_keluarga').on('change', function() {
+        if ($(this).val() === 'DI LUAR KELUARGA') {
+            $('#container_keterangan_di_luar_keluarga').slideDown();
+        } else {
+            $('#container_keterangan_di_luar_keluarga').slideUp();
+            $('#datappksform-keterangan_di_luar_keluarga').val(''); // Reset
+        }
+    });
+    // Trigger on load
+    $('#select_tinggal_dalam_keluarga').trigger('change');
 
     input.addEventListener('change', function(e) {
         if (e.target.files && e.target.files[0]) {
