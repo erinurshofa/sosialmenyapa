@@ -411,6 +411,7 @@ class PpksController extends Controller
             $model2->nomor_hp_cp=@$_POST['DataPpksForm']['nomor_hp_cp'];
 
             $model2->jenis_disabilitas = @$_POST['DataPpksForm']['jenis_disabilitas'];
+            $model2->keterangan_disabilitas_ganda = @$_POST['DataPpksForm']['keterangan_disabilitas_ganda'];
             $model2->tempat_lahir = @$_POST['DataPpksForm']['tempat_lahir'];
             $model2->tanggal_lahir = @$_POST['DataPpksForm']['tanggal_lahir'];
             $model2->tinggal_dalam_keluarga = @$_POST['DataPpksForm']['tinggal_dalam_keluarga'];
@@ -620,6 +621,7 @@ class PpksController extends Controller
             $model->nomor_hp_cp=@$_POST['Ppks']['nomor_hp_cp'];
 
             $model->jenis_disabilitas = @$_POST['Ppks']['jenis_disabilitas'];
+            $model->keterangan_disabilitas_ganda = @$_POST['Ppks']['keterangan_disabilitas_ganda'];
             $model->tempat_lahir = @$_POST['Ppks']['tempat_lahir'];
             $model->tanggal_lahir = @$_POST['Ppks']['tanggal_lahir'];
             $model->tinggal_dalam_keluarga = @$_POST['Ppks']['tinggal_dalam_keluarga'];

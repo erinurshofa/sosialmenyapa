@@ -220,7 +220,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'tanggal_lahir')->input('date') ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($model, 'jenis_disabilitas')->dropDownList($model->jenisDisabilitas(), ['prompt' => 'Pilih Jenis Disabilitas']) ?>
+                    <?= $form->field($model, 'jenis_disabilitas')->dropDownList($model->jenisDisabilitas(), ['prompt' => 'Pilih Jenis Disabilitas', 'id' => 'select_jenis_disabilitas']) ?>
+                </div>
+                <div class="col-md-6" id="container_keterangan_disabilitas_ganda" style="display: none;">
+                    <?= $form->field($model, 'keterangan_disabilitas_ganda')->textInput(['placeholder' => 'Sebutkan jenis disabilitas ganda...']) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, 'hubungan_dgn_kepala_keluarga')->dropDownList($model->hubunganDenganKepalaKeluarga(), ['prompt' => 'Pilih Hubungan dgn Kepala Keluarga']) ?>
@@ -439,6 +442,18 @@ function processPhotoWithGPS(inputId, canvasId, statusId, hiddenDataId, previewI
     });
     // Trigger on load if there's old data
     $('#select_apakah_terlantar').trigger('change');
+
+    // Toggle logic for whether or not "Keterangan Disabilitas Ganda" should be shown
+    $('#select_jenis_disabilitas').on('change', function() {
+        if ($(this).val() === 'DISABILITAS GANDA') {
+            $('#container_keterangan_disabilitas_ganda').slideDown();
+        } else {
+            $('#container_keterangan_disabilitas_ganda').slideUp();
+            $('#datappksform-keterangan_disabilitas_ganda').val(''); // Reset
+        }
+    });
+    // Trigger on load
+    $('#select_jenis_disabilitas').trigger('change');
 
     input.addEventListener('change', function(e) {
         if (e.target.files && e.target.files[0]) {
