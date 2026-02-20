@@ -41,20 +41,23 @@ class DataPpksForm extends Model
     public $kondisi_keterlantaran;
     public $keterangan;
     public $jenis_disabilitas;
+    public $foto_orang;
+    public $foto_rumah;
 
 
     public function rules()
     {
         return [
             [['nama', 'jenis_kelamin', 'alamat_ktp', 'rt_ktp', 'rw_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'rt_domisili', 'rw_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'nomor_hp_cp'], 'required'],
-            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan'], 'string', 'max' => 255],
+            [['nama', 'nik','no_kk', 'alamat_ktp', 'kecamatan_ktp', 'kelurahan_ktp', 'alamat_domisili', 'kecamatan_domisili', 'kelurahan_domisili', 'nama_cp', 'tempat_lahir', 'tanggal_lahir','tinggal_dalam_keluarga','hubungan_dgn_kepala_keluarga','status_kawin','pekerjaan_atau_sekolah','kondisi_keterlantaran','keterangan', 'tanggal_input'], 'string', 'max' => 255],
+            [['foto_orang', 'foto_rumah'], 'string'],
             [['nik'], 'string', 'length' => 16],
             [['jenis_kelamin'], 'in', 'range' => ['LAKI-LAKI', 'PEREMPUAN']],
             // [['masuk_dtks'], 'in', 'range' => ['YA', 'TIDAK']],
             // [['punya_ktp'], 'in', 'range' => ['PUNYA', 'TIDAK PUNYA']],
             [['khusus_penyandang_disabilitas'], 'in', 'range' => ['TERLANTAR', 'TIDAK TERLANTAR']],
             // [['masuk_dtks', 'khusus_penyandang_disabilitas', 'punya_ktp'], 'boolean'],
-            [['rt_ktp', 'rw_ktp', 'rt_domisili', 'rw_domisili'], 'integer'],
+            [['rt_ktp', 'rw_ktp', 'rt_domisili', 'rw_domisili', 'dsen_id'], 'integer'],
             [['nomor_hp_cp'], 'match', 'pattern' => '/^\+?\d{10,15}$/', 'message' => 'Nomor HP tidak valid.'],
         ];
     }
@@ -89,6 +92,8 @@ class DataPpksForm extends Model
             'pekerjaan_atau_sekolah' => 'Pekerjaan Atau Sekolah',
             'kondisi_keterlantaran' => 'Kondisi Keterlantaran',
             'keterangan' => 'Keterangan',
+            'foto_orang' => 'Foto Orang Yang Bersangkutan',
+            'foto_rumah' => 'Foto Rumah',
         ];
     }
 
@@ -179,4 +184,10 @@ class DataPpksForm extends Model
     }
 
     
+    public $dsen_id;
+    public $tanggal_input;
+
+    public function listDsen(){
+        return \yii\helpers\ArrayHelper::map(Dsen::find()->all(), 'id', 'nama');
+    }
 }

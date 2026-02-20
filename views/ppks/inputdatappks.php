@@ -40,13 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'nama')->textInput(['placeholder' => 'Masukkan Nama Lengkap']) ?>
                         <?= $form->field($model, 'nik')->textInput(['maxlength' => 16, 'placeholder' => 'Masukkan NIK'])->label('NOMOR INDUK KEPENDUDUKAN (NIK)') ?>
                         <?= $form->field($model, 'no_kk')->textInput(['maxlength' => 16, 'placeholder' => 'Masukkan KK'])->label('NOMOR KARTU KELUARGA (KK)') ?>
+                        <?= $form->field($model, 'tanggal_input')->input('date')->label('Tanggal Input') ?>
                         
                     </div>
                     <div class="col-md-6">
                         <?= $form->field($model, 'punya_ktp')->dropDownList($model->punyaKtp(), ['prompt' => 'Pilih Kepemilikan KTP']) ?>
-                        <?= $form->field($model, 'masuk_dtks')->dropDownList($model->masukDTKS(), ['prompt' => 'Pilih Status DTKS']) ?>
+                        <?= $form->field($model, 'dsen_id')->dropDownList($model->listDsen(), ['prompt' => 'Pilih Status Desil']) ?>
                         <?= $form->field($model, 'jenis_kelamin')->dropDownList($model->listJenisKelamin(), ['prompt' => 'Pilih Jenis Kelamin']) ?>
-                        <?= $form->field($model, 'khusus_penyandang_disabilitas')->dropDownList($model->khususPenyandangDisabilitas(), ['prompt' => 'Pilih Status Disabilitas']) ?>
+
                         
                     </div>
                 </div>
@@ -235,6 +236,38 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-md-6">
                     <?= $form->field($model, 'keterangan')->textarea(['rows' => 2, 'placeholder' => 'Keterangan']) ?>
                 </div>
+
+                <div class="col-md-6">
+                    <label class="control-label">FOTO ORANG YANG BERSANGKUTAN <span class="text-danger">*</span></label>
+                    <div class="photo-upload-container">
+                        <i class="fa fa-camera icon"></i>
+                        <div class="text">Ketuk Untuk Ambil Foto Orang</div>
+                        <div class="sub-text">Gunakan kamera HP (Pastikan GPS Aktif)</div>
+                        <input type="file" id="input_foto_orang" accept="image/*" capture="environment">
+                    </div>
+                    <?= Html::hiddenInput('DataPpksForm[foto_orang]', '', ['id' => 'data_foto_orang']) ?>
+                    <canvas id="canvas_foto_orang" style="display: none;"></canvas>
+                    <div class="text-center mt-2">
+                        <img id="preview_foto_orang" class="watermarked-preview" src="" alt="Preview">
+                        <div id="status_foto_orang" class="mt-1"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="control-label">FOTO RUMAH <span class="text-danger">*</span></label>
+                    <div class="photo-upload-container">
+                        <i class="fa fa-home icon"></i>
+                        <div class="text">Ketuk Untuk Ambil Foto Rumah</div>
+                        <div class="sub-text">Tampak Depan (Pastikan GPS Aktif)</div>
+                        <input type="file" id="input_foto_rumah" accept="image/*" capture="environment">
+                    </div>
+                    <?= Html::hiddenInput('DataPpksForm[foto_rumah]', '', ['id' => 'data_foto_rumah']) ?>
+                    <canvas id="canvas_foto_rumah" style="display: none;"></canvas>
+                    <div class="text-center mt-2">
+                        <img id="preview_foto_rumah" class="watermarked-preview" src="" alt="Preview">
+                        <div id="status_foto_rumah" class="mt-1"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -333,4 +366,161 @@ $this->params['breadcrumbs'][] = $this->title;
     .card {
         border: none;
     }
+    .photo-upload-container {
+        border: 2px dashed #001f3f;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        background: #f8f9fa;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .photo-upload-container:hover {
+        background: #e9ecef;
+        border-color: #007bff;
+    }
+    .photo-upload-container input[type="file"] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .photo-upload-container .icon {
+        font-size: 40px;
+        color: #001f3f;
+        margin-bottom: 10px;
+    }
+    .photo-upload-container .text {
+        font-weight: bold;
+        color: #333;
+    }
+    .photo-upload-container .sub-text {
+        font-size: 12px;
+        color: #6c757d;
+    }
+    .watermarked-preview {
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-top: 15px;
+        display: none;
+    }
 </style>
+
+<?php
+$js = <<<JS
+function processPhotoWithGPS(inputId, canvasId, statusId, hiddenDataId, previewId) {
+    const input = document.getElementById(inputId);
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const status = document.getElementById(statusId);
+    const hiddenData = document.getElementById(hiddenDataId);
+    const preview = document.getElementById(previewId);
+
+    input.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            status.innerHTML = '<span class="text-warning"><i class="fa fa-spinner fa-spin"></i> Memproses foto & mencari lokasi (GPS)...</span>';
+            preview.style.display = 'none';
+
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    // Resize image
+                    let width = img.width;
+                    let height = img.height;
+                    const MAX_WIDTH = 1200;
+                    if (width > MAX_WIDTH) {
+                        height = Math.round((height * MAX_WIDTH) / width);
+                        width = MAX_WIDTH;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            const lat = position.coords.latitude;
+                            const lon = position.coords.longitude;
+                            
+                            $.ajax({
+                                url: `https://nominatim.openstreetmap.org/reverse?format=json&lat=\${lat}&lon=\${lon}&zoom=18&addressdetails=1`,
+                                type: 'GET',
+                                success: function(data) {
+                                    let placeName = "Lokasi Tidak Diketahui";
+                                    if (data && data.display_name) {
+                                        let addressParts = data.display_name.split(', ');
+                                        placeName = addressParts.slice(0, 3).join(', ');
+                                    }
+                                    drawWatermarkAndSave(lat, lon, placeName);
+                                },
+                                error: function() {
+                                    drawWatermarkAndSave(lat, lon, "Gagal mendapatkan nama tempat");
+                                }
+                            });
+
+                        }, function(error) {
+                            drawWatermarkAndSave(null, null, "Akses GPS Ditolak / Tidak Tersedia");
+                        }, {
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            maximumAge: 0
+                        });
+                    } else {
+                        drawWatermarkAndSave(null, null, "Browser tidak mendukung GPS");
+                    }
+
+                    function drawWatermarkAndSave(lat, lon, placeName) {
+                        const now = new Date();
+                        const dateStr = ("0" + now.getDate()).slice(-2) + "/" + ("0" + (now.getMonth() + 1)).slice(-2) + "/" + now.getFullYear();
+                        const timeStr = ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
+                        const dateTimeText = `Waktu: \${dateStr} \${timeStr}`;
+                        
+                        const gpsText = (lat && lon) ? `GPS: \${lat.toFixed(6)}, \${lon.toFixed(6)}` : "GPS: -";
+                        const locationText = `Lokasi: \${placeName}`;
+
+                        const padding = 20;
+                        const lineHeight = 35;
+                        const rectHeight = (lineHeight * 3) + 20;
+                        
+                        ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+                        ctx.fillRect(0, canvas.height - rectHeight, canvas.width, rectHeight);
+
+                        ctx.font = "bold 24px Arial";
+                        ctx.fillStyle = "#ffffff";
+                        ctx.textAlign = "left";
+                        ctx.textBaseline = "top";
+
+                        const startY = canvas.height - rectHeight + 10;
+                        ctx.fillText(locationText, padding, startY);
+                        ctx.fillText(gpsText, padding, startY + lineHeight);
+                        ctx.fillText(dateTimeText, padding, startY + (lineHeight * 2));
+
+                        const base64Image = canvas.toDataURL("image/jpeg", 0.85);
+                        hiddenData.value = base64Image;
+                        
+                        preview.src = base64Image;
+                        preview.style.display = 'inline-block';
+                        status.innerHTML = '<span class="text-success"><i class="fa fa-check-circle"></i> Foto berhasil diproses!</span>';
+                    }
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+processPhotoWithGPS('input_foto_orang', 'canvas_foto_orang', 'status_foto_orang', 'data_foto_orang', 'preview_foto_orang');
+processPhotoWithGPS('input_foto_rumah', 'canvas_foto_rumah', 'status_foto_rumah', 'data_foto_rumah', 'preview_foto_rumah');
+
+JS;
+$this->registerJs($js);
+?>

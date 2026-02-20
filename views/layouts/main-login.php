@@ -14,7 +14,7 @@ $this->registerCssFile('https://code.ionicframework.com/ionicons/2.0.1/css/ionic
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SOSIAL MENYAPA | LOGIN</title>
+    <title>SIPEDULI | LOGIN</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
@@ -28,8 +28,13 @@ $this->registerCssFile('https://code.ionicframework.com/ionicons/2.0.1/css/ionic
 <body class="hold-transition login-page" style=<?=$gambar2?>>
 <?php  $this->beginBody() ?>
 <div class="card login-box"  style=<?=$gambar1?>>
+    <div style="position: absolute; top: 10px; left: 10px; z-index: 1000;">
+        <a href="<?= \yii\helpers\Url::to(['/site/index']) ?>" class="btn btn-sm btn-light shadow-sm" style="border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
     <div class="login-logo">
-        <a href="<?=Yii::$app->homeUrl?>"><b>SOSIAL MENYAPA</b></a>
+        <a href="<?=Yii::$app->homeUrl?>"><b>SIPEDULI</b></a>
     </div>
     <!-- /.login-logo -->
 

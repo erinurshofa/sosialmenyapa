@@ -344,6 +344,7 @@ class PpksController extends Controller
     public function actionInputdatappks()
     {
         $model = new DataPpksForm();
+        $model->tanggal_input = date('Y-m-d');
         $model2 = new Ppks();
 
         $request = Yii::$app->request;
@@ -353,7 +354,7 @@ class PpksController extends Controller
             $model2->nik=@$_POST['DataPpksForm']['nik'];
             $model2->no_kk=@$_POST['DataPpksForm']['no_kk'];
             $model2->punya_ktp=@$_POST['DataPpksForm']['punya_ktp'];
-            $model2->masuk_dtks=@$_POST['DataPpksForm']['masuk_dtks'];
+            $model2->dsen_id=@$_POST['DataPpksForm']['dsen_id'];
             $model2->jenis_kelamin=@$_POST['DataPpksForm']['jenis_kelamin'];
             $model2->khusus_penyandang_disabilitas=@$_POST['DataPpksForm']['khusus_penyandang_disabilitas'];
             $model2->alamat=@$_POST['DataPpksForm']['alamat_ktp'];
@@ -419,6 +420,44 @@ class PpksController extends Controller
             $model2->kondisi_keterlantaran = @$_POST['DataPpksForm']['kondisi_keterlantaran'];
             $model2->keterangan = @$_POST['DataPpksForm']['keterangan'];
 
+            // Save Foto Orang
+            $base64_foto_orang = @$_POST['DataPpksForm']['foto_orang'];
+            if (!empty($base64_foto_orang) && preg_match('/^data:image\/(\w+);base64,/', $base64_foto_orang, $type_orang)) {
+                $img_orang_data = substr($base64_foto_orang, strpos($base64_foto_orang, ',') + 1);
+                $img_orang_type = strtolower($type_orang[1]); 
+                if (in_array($img_orang_type, [ 'jpg', 'jpeg', 'png', 'gif', 'webp', 'avif' ])) {
+                    $img_orang_decoded = base64_decode($img_orang_data);
+                    if ($img_orang_decoded !== false) {
+                        $filename_orang = 'foto_orang_' . time() . '_' . uniqid() . '.' . $img_orang_type;
+                        $filepath_orang = Yii::getAlias('@webroot') . '/uploads/ppks/' . $filename_orang;
+                        if (!is_dir(dirname($filepath_orang))) {
+                            mkdir(dirname($filepath_orang), 0777, true);
+                        }
+                        file_put_contents($filepath_orang, $img_orang_decoded);
+                        $model2->foto_orang = $filename_orang;
+                    }
+                }
+            }
+
+            // Save Foto Rumah
+            $base64_foto_rumah = @$_POST['DataPpksForm']['foto_rumah'];
+            if (!empty($base64_foto_rumah) && preg_match('/^data:image\/(\w+);base64,/', $base64_foto_rumah, $type_rumah)) {
+                $img_rumah_data = substr($base64_foto_rumah, strpos($base64_foto_rumah, ',') + 1);
+                $img_rumah_type = strtolower($type_rumah[1]); 
+                if (in_array($img_rumah_type, [ 'jpg', 'jpeg', 'png', 'gif', 'webp', 'avif' ])) {
+                    $img_rumah_decoded = base64_decode($img_rumah_data);
+                    if ($img_rumah_decoded !== false) {
+                        $filename_rumah = 'foto_rumah_' . time() . '_' . uniqid() . '.' . $img_rumah_type;
+                        $filepath_rumah = Yii::getAlias('@webroot') . '/uploads/ppks/' . $filename_rumah;
+                        if (!is_dir(dirname($filepath_rumah))) {
+                            mkdir(dirname($filepath_rumah), 0777, true);
+                        }
+                        file_put_contents($filepath_rumah, $img_rumah_decoded);
+                        $model2->foto_rumah = $filename_rumah;
+                    }
+                }
+            }
+
 
             $model2->anak_balita_terlantar = @$_POST['pmks']['anak_balita_terlantar']=="on" ? 1:0;
             $model2->anak_terlantar = @$_POST['pmks']['anak_terlantar']=="on" ? 1:0;
@@ -455,6 +494,7 @@ class PpksController extends Controller
             $model2->penyandang_disabilitas_mental = @$_POST['disabilitas']['penyandang_disabilitas_mental']=="on" ? 1:0;
             $model2->penyandang_disabilitas_sensorik = @$_POST['disabilitas']['penyandang_disabilitas_sensorik']=="on" ? 1:0;
             $model2->dibuat=@Yii::$app->user->identity->username;
+            $model2->tanggal_input=@$_POST['DataPpksForm']['tanggal_input'];
 
             $model2->verifikasi="Belum";
             $model2->validasi="Belum";
@@ -586,6 +626,44 @@ class PpksController extends Controller
             $model->pekerjaan_atau_sekolah = @$_POST['Ppks']['pekerjaan_atau_sekolah'];
             $model->kondisi_keterlantaran = @$_POST['Ppks']['kondisi_keterlantaran'];
             $model->keterangan = @$_POST['Ppks']['keterangan'];
+
+            // Save Foto Orang
+            $base64_foto_orang = @$_POST['Ppks']['foto_orang'];
+            if (!empty($base64_foto_orang) && preg_match('/^data:image\/(\w+);base64,/', $base64_foto_orang, $type_orang)) {
+                $img_orang_data = substr($base64_foto_orang, strpos($base64_foto_orang, ',') + 1);
+                $img_orang_type = strtolower($type_orang[1]); 
+                if (in_array($img_orang_type, [ 'jpg', 'jpeg', 'png', 'gif', 'webp', 'avif' ])) {
+                    $img_orang_decoded = base64_decode($img_orang_data);
+                    if ($img_orang_decoded !== false) {
+                        $filename_orang = 'foto_orang_' . time() . '_' . uniqid() . '.' . $img_orang_type;
+                        $filepath_orang = Yii::getAlias('@webroot') . '/uploads/ppks/' . $filename_orang;
+                        if (!is_dir(dirname($filepath_orang))) {
+                            mkdir(dirname($filepath_orang), 0777, true);
+                        }
+                        file_put_contents($filepath_orang, $img_orang_decoded);
+                        $model->foto_orang = $filename_orang;
+                    }
+                }
+            }
+
+            // Save Foto Rumah
+            $base64_foto_rumah = @$_POST['Ppks']['foto_rumah'];
+            if (!empty($base64_foto_rumah) && preg_match('/^data:image\/(\w+);base64,/', $base64_foto_rumah, $type_rumah)) {
+                $img_rumah_data = substr($base64_foto_rumah, strpos($base64_foto_rumah, ',') + 1);
+                $img_rumah_type = strtolower($type_rumah[1]); 
+                if (in_array($img_rumah_type, [ 'jpg', 'jpeg', 'png', 'gif', 'webp', 'avif' ])) {
+                    $img_rumah_decoded = base64_decode($img_rumah_data);
+                    if ($img_rumah_decoded !== false) {
+                        $filename_rumah = 'foto_rumah_' . time() . '_' . uniqid() . '.' . $img_rumah_type;
+                        $filepath_rumah = Yii::getAlias('@webroot') . '/uploads/ppks/' . $filename_rumah;
+                        if (!is_dir(dirname($filepath_rumah))) {
+                            mkdir(dirname($filepath_rumah), 0777, true);
+                        }
+                        file_put_contents($filepath_rumah, $img_rumah_decoded);
+                        $model->foto_rumah = $filename_rumah;
+                    }
+                }
+            }
 
 
             $model->anak_balita_terlantar = @$_POST['pmks']['anak_balita_terlantar']=="on" ? 1:0;

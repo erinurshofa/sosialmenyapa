@@ -408,6 +408,7 @@ public static function getRekapPpksKelurahan2() {
     $jenis = Actions::getQuery($sql);
     $sql2="select kecamatan";
     foreach ($jenis as $key => $value) {
+      if(empty($value['jenis_ppks_fix'])) continue;
       $sql2.=", COUNT(IF(jenis_ppks_fix = '".$value['jenis_ppks_fix']."', jenis_ppks_fix, NULL)) as ".Rekap::formatString($value['jenis_ppks_fix'])." ";
     }
     $sql2.="FROM ppks GROUP BY kecamatan";
@@ -420,6 +421,7 @@ public static function getRekapPpksKelurahan2() {
     $jenis = Actions::getQuery($sql);
     $sql2="select kecamatan, kelurahan";
     foreach ($jenis as $key => $value) {
+      if(empty($value['jenis_ppks_fix'])) continue;
       $sql2.=", COUNT(IF(jenis_ppks_fix = '".$value['jenis_ppks_fix']."' and kecamatan='".$kecamatan."', jenis_ppks_fix, NULL)) as ".Rekap::formatString($value['jenis_ppks_fix'])." ";
     }   
     $sql2.="FROM ppks where kecamatan='".$kecamatan."' GROUP BY kelurahan";

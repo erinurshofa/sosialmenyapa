@@ -11,7 +11,7 @@ use yii\bootstrap5\ActiveForm; // Ensure bootstrap 5 or compatible
 // Checking original file: "use yii\bootstrap5\ActiveForm;" was present? 
 // Original file line 5: use yii\bootstrap5\ActiveForm; -> Yes.
 
-$this->title = 'Sign In - Sosial Menyapa';
+$this->title = 'Sign In - SIPEDULI';
 $this->registerCssFile('@web/css/login-modern.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::class]]);
 ?>
 
@@ -90,7 +90,7 @@ $this->registerCssFile('@web/css/login-modern.css', ['depends' => [\yii\bootstra
             <?php ActiveForm::end(); ?>
 
             <div class="copyright">
-                &copy; <?= date('Y') ?> Sosial Menyapa. All rights reserved.
+                &copy; <?= date('Y') ?> SIPEDULI. All rights reserved.
             </div>
         </div>
     </div>

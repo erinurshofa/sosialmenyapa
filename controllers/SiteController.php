@@ -195,6 +195,12 @@ public function actionKegiatan()
     ]);
 }
 
+public function actionPermohonanAlatBantu()
+{
+    $this->layout = "main_frontend2"; // Use the frontend layout
+    return $this->render('permohonan-alat-bantu');
+}
+
 
     // public function actionStatistik()
     // {

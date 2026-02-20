@@ -106,7 +106,7 @@ $this->title = 'Dinas Sosial Kota Semarang';
 <?php $this->beginBody() ?>
 <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">SOSIAL MENYAPA</a>
+            <a class="navbar-brand" href="/">SIPEDULI</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -118,7 +118,7 @@ $this->title = 'Dinas Sosial Kota Semarang';
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown">Permohonan</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#permohonan">Permohonan Santuan Kematian</a></li>
-                            <li><a class="dropdown-item" href="#permohonan">Permohonan Alat Bantu Disabilitas</a></li>
+                            <li><a class="dropdown-item" href="<?= Url::to(['/site/permohonan-alat-bantu']) ?>">Permohonan Alat Bantu Disabilitas</a></li>
                             <li><a class="dropdown-item" href="<?= Url::to(['/site/registrasi-psm']) ?>">Registrasi PSM</a></li>
                         </ul>
                     </li>

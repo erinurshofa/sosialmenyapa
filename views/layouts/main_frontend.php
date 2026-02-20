@@ -130,29 +130,16 @@ $this->title = 'Dinas Sosial Kota Semarang';
                 margin: 5px 0;*/
             }
         }
-        .navbar-toggler {
-            border: none;
-            background-color: #ffffff;
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' ... %3C/svg%3E");
-        }
-        .navbar-toggler {
-            border: none;
-            background-color: #ffffff;
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' ... %3C/svg%3E");
-        }
+
         
     </style>
 </head>
 <body>
 <?php $this->beginBody() ?>
 <!-- navbar-light bg-light shadow-sm  -->
-<nav class="navbar navbar-expand-lg fixed-top">
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">SOSIAL MENYAPA</a>
+            <a class="navbar-brand" href="/">SIPEDULI</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -165,7 +152,7 @@ $this->title = 'Dinas Sosial Kota Semarang';
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown">Permohonan</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#permohonan">Permohonan Santuan Kematian</a></li>
-                            <li><a class="dropdown-item" href="#permohonan">Permohonan Alat Bantu Disabilitas</a></li>
+                            <li><a class="dropdown-item" href="<?= Url::to(['/site/permohonan-alat-bantu']) ?>">Permohonan Alat Bantu Disabilitas</a></li>
                             <li><a class="dropdown-item" href="<?= Url::to(['/site/registrasi-psm']) ?>">Registrasi PSM</a></li>
                         </ul>
                     </li>
@@ -235,7 +222,7 @@ $this->title = 'Dinas Sosial Kota Semarang';
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="https://sosialmenyapa.semarangkota.go.id/login?s=permohonan" class="btn btn-blue">
+                        <a href="<?= Url::to(['/site/permohonan-alat-bantu']) ?>" class="btn btn-blue">
                         <div class="icon-box">
                             <i class="fas fa-wheelchair"></i>
                             <h3>SABD</h3>
@@ -282,7 +269,7 @@ $this->title = 'Dinas Sosial Kota Semarang';
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="aboutModalLabel">Tentang Sosial Menyapa</h5>
+        <h5 class="modal-title" id="aboutModalLabel">Tentang SIPEDULI</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

@@ -1,6 +1,7 @@
 {
   "name": "Sosial Menyapa",
   "short_name": "SosialMenyapa",
+  "id": "/sosialmenyapa/",
   "start_url": "./index.php?r=site/registrasi-psm",
   "display": "standalone",
   "background_color": "#ffffff",

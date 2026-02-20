@@ -33,6 +33,15 @@ if (class_exists('yii\bootstrap5\BootstrapAsset')) {
 <body>
 <?php $this->beginBody() ?>
 
+<div style="position: fixed; top: 20px; left: 20px; z-index: 9999;">
+    <a href="<?= \yii\helpers\Url::to(['/site/index']) ?>" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: white; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: #333; text-decoration: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+    </a>
+</div>
+
 <?= $content ?>
 
 <?php $this->endBody() ?>

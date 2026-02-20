@@ -7,12 +7,14 @@ $this->params['bodyClass'] = 'hold-transition login-page';
 ?>
 
 <!-- <div class="login-box"> -->
-    <div class="card shadow-lg rounded-lg" style="position: relative;">
-        <a href="<?= \yii\helpers\Url::to(['/site/index']) ?>" class="btn btn-link text-secondary" style="position: absolute; top: 10px; left: 10px; z-index: 100; text-decoration: none;">
-            <i class="fas fa-arrow-left"></i>
-        </a>
+    <div class="card shadow-lg rounded-lg">
         <div class="card-body login-card-body">
-            <p class="login-box-msg pt-4">Sign in to start your session</p>
+            <div class="mb-3">
+                <a href="<?= \yii\helpers\Url::to(['/site/index']) ?>" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
+            <p class="login-box-msg">Sign in to start your session</p>
             
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
             
