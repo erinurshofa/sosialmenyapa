@@ -319,13 +319,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 }
                                 $template.= "</ul>";
                                 echo $template;
-                                if($value->kode=="anak_dengan_kedisabilitasan" ||$value->kode=="penyandang_disabilitas"){
-                                    echo "PILIH JENIS KEDISABILITASAN (BOLEH LEBIH DARI SATU)</br>";
-                                    echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_fisik]' > Fisik</label><br>";
-                                    echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_intelektual]'> Intelektual</label><br>";
-                                    echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_mental]' > Mental</label><br>";
-                                    echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_sensorik]' > Sensorik</label><br>";
-                                }
+                                // if($value->kode=="anak_dengan_kedisabilitasan" ||$value->kode=="penyandang_disabilitas"){
+                                //     echo "PILIH JENIS KEDISABILITASAN (BOLEH LEBIH DARI SATU)</br>";
+                                //     echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_fisik]' > Fisik</label><br>";
+                                //     echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_intelektual]'> Intelektual</label><br>";
+                                //     echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_mental]' > Mental</label><br>";
+                                //     echo "<label><input type='checkbox' name='disabilitas[".$value->kode."_sensorik]' > Sensorik</label><br>";
+                                // }
                                 echo "</td>";
                                 // echo "<td class='text-center'><input type='checkbox' name='pmks[".$value->kode."]'></td>";
                                 echo "</tr>";
