@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
         <img src="<?=$assetDir?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">SEJAHTERA</span>
+        <span class="brand-text font-weight-light">SIPEDULI</span>
     </a>
 
     <!-- Sidebar -->
@@ -26,7 +26,7 @@
                     $urlimage=@\yii\helpers\Url::to('@web/' . $model->foto);
                     echo '<img class="img-circle elevation-2" src='.$urlimage.' alt='.$model->nama_lengkap.'>';
                   }else{
-                    echo '<img class="img-circle elevation-2" src="images/user.png" alt="User Avatar">';
+                    echo '<img class="img-circle elevation-2" src="'.\Yii::$app->request->baseUrl.'/images/user.png" alt="User Avatar">';
                   }
                 ?>
             </div>
@@ -84,7 +84,7 @@
           echo \hail812\adminlte\widgets\Menu::widget([
               // 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
               'items' => [
-                  ['label' => 'SEJAHTERA', 'header' => true],
+                  ['label' => 'SIPEDULI', 'header' => true],
                   ['label' => 'DASHBOARD', 'icon' => 'tachometer-alt text-orange', 'url' => ['site/dashboard']],
                   [
                     'label' => 'MASTER',
@@ -147,7 +147,7 @@
             echo \hail812\adminlte\widgets\Menu::widget([
                 // 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'SEJAHTERA', 'header' => true],
+                    ['label' => 'SIPEDULI', 'header' => true],
                     ['label' => 'DASHBOARD', 'icon' => 'tachometer-alt text-orange', 'url' => ['site/dashboard']],
                     [
                       'label' => 'MASTER',
@@ -199,7 +199,7 @@
               echo \hail812\adminlte\widgets\Menu::widget([
                 // 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'SEJAHTERA', 'header' => true],
+                    ['label' => 'SIPEDULI', 'header' => true],
                     ['label' => 'DASHBOARD', 'icon' => 'tachometer-alt text-warning', 'url' => ['site/dashboard']],
                     [
                         'label' => 'LAYANAN SOSIAL',
@@ -275,7 +275,7 @@
                     echo \hail812\adminlte\widgets\Menu::widget([
                         // 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                         'items' => [
-                            ['label' => 'SEJAHTERA', 'header' => true],
+                            ['label' => 'SIPEDULI', 'header' => true],
                             ['label' => 'DASHBOARD', 'icon' => 'tachometer-alt text-orange', 'url' => ['site/dashboard']],
                             [
                               'label' => 'LAYANAN SOSIAL',
@@ -340,7 +340,7 @@
                         echo \hail812\adminlte\widgets\Menu::widget([
                             // 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                             'items' => [
-                                ['label' => 'SEJAHTERA', 'header' => true],
+                                ['label' => 'SIPEDULI', 'header' => true],
                                 ['label' => 'DASHBOARD', 'icon' => 'tachometer-alt text-orange', 'url' => ['site/dashboard']],
                                 [
                                   'label' => 'Perlu Di Proses',
@@ -396,7 +396,7 @@
                             echo \hail812\adminlte\widgets\Menu::widget([
                                 // 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                                 'items' => [
-                                    ['label' => 'SEJAHTERA', 'header' => true],
+                                    ['label' => 'SIPEDULI', 'header' => true],
                                     ['label' => 'DASHBOARD', 'icon' => 'tachometer-alt text-orange', 'url' => ['site/dashboard']],
                                     [
                                       'label' => 'LAYANAN SOSIAL',
@@ -473,6 +473,34 @@
             //     ],
             // ]);
             ?>
+        <?php
+        if (@Yii::$app->user->identity->role == "among_jiwo") {
+            echo \hail812\adminlte\widgets\Menu::widget([
+                'items' => [
+                    ['label' => 'SIPEDULI', 'header' => true],
+                    ['label' => 'DASHBOARD', 'icon' => 'tachometer-alt text-orange', 'url' => ['site/dashboard']],
+                    [
+                        'label' => 'LAYANAN SOSIAL',
+                        'icon' => 'hand-holding-heart text-danger',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Input Data Terlantar', 'icon' => 'file-alt text-warning', 'url' => ['ppks/inputdatappks']],
+                            ['label' => 'Input Layanan Terlantar', 'icon' => 'plus-square text-primary', 'url' => ['ppks/input-layanan-terlantar']],
+                            ['label' => 'Input Data Korban Bencana', 'icon' => 'file-alt text-danger', 'url' => ['bencana-korban-individu/index']],
+                            ['label' => 'Input Layanan Bencana', 'icon' => 'plus-square text-danger', 'url' => ['bencana-layanan/index']],
+                        ],
+                    ],
+                    ['label' => 'EDIT PROFIL', 'icon' => 'user-cog text-secondary', 'url' => ['users/edit-profile']],
+                    Yii::$app->user->isGuest ?
+                    ['label' => 'Login', 'url' => ['/site/login']] :
+                    ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                        'icon' => 'sign-out-alt text-blue',
+                        'url' => ['/site/logout'], 'linkOptions' => ['data-method' => 'post']
+                    ],
+                ]
+            ]);
+        }
+        ?>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
