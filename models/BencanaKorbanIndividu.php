@@ -29,8 +29,6 @@ class BencanaKorbanIndividu extends \yii\db\ActiveRecord
 {
     public $provinsi_id;
     public $kota_id;
-    public $kecamatan_id;
-    public $kelurahan_id;
 
     /**
      * {@inheritdoc}
